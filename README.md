@@ -20,3 +20,7 @@ Since binlore is very young and currently has a limited scope, the vision may ma
             - and `executable_path` is whatever path YARA printed for the match
         - `$out/wrappers`, which has the format `${wrapper_path} -> ${wrapped_path}`
             - not using this yet, so the format is even more likely to change
+
+4. resholve's own uses of binlore serve as a good example of the rough intent
+    - direct use for CI run: https://github.com/abathur/resholve/commit/52faf7493c51e5191de771eb49b8c12df90357cd#diff-783b1f6267f9b548283102092f66f71ac066b9e7b0917de0663e0269e1e26848R168
+    - similar use inside resholve's Nix API: https://github.com/abathur/resholve/commit/52faf7493c51e5191de771eb49b8c12df90357cd#diff-4ac4c92c1fad1b94f9defdc9f1c25bae0b446daa168078ce6e453ae7077a1908R80
