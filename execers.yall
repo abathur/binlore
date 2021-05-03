@@ -1,0 +1,54 @@
+
+wrappers="$(mktemp)" execer="$(mktemp)"
+# echo $wrappers $execer # debug
+US=$'\x1f'
+
+shopt -s expand_aliases
+
+exec_target(){
+  while [ $# -gt 0 ]; do
+    # echo word: "${1@Q}" >&2
+    case "${1@Q}" in
+      *":exec'") printf "${1/:exec/ ->} ";;
+      "'-a'") shift;;
+      "'-c'") ;;
+      "'-l'") ;;
+      *'$@'*|*'${@'*) ;; #echo allargs: $1 >&2 ;;
+      *'$0'*|*'${0'*) ;; #echo zeroargs: $1 >&2 ;;
+      *)
+        # echo default: ${1//[\'\"]/} >&2
+        if [[ -x "${1//[\'\"]/}" ]]; then
+          # echo file: ${1//[\'\"]/} >&2
+          echo ${1//[\'\"]/}
+        fi
+        ;;
+    esac
+    shift
+  done
+}
+
+yallback:rule:shell_wrapper:all(){
+  # echo shehe $@ >&2
+  exec_target $(grep -H -e "^exec" $(cat))
+} > "$wrappers" # 1>&$wrappers
+
+#can_exec cannot_exec might_exec
+report_execers(){
+  rule="${1/_exec/}"
+  while read -r line; do
+    echo "$rule${US}$line"
+  done
+} >> "$execer" # 1>&$execer
+
+alias yallback:rule:can_exec:all=report_execers yallback:rule:cannot_exec:all=report_execers yallback:rule:might_exec:all=report_execers
+
+yallback:done(){
+  sort "$execer" > $out/execers
+  sort "$wrappers" > $out/wrappers
+  # TODO:
+  # I wanted to just output wrappers that point to
+  # a known execer, but the formats have diverged.
+  # At least for now, the lore consumer will need
+  # to cross-reference to answer this question.
+  # comm -12 "$wrappers" "$execer"
+}
