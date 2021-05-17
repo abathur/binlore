@@ -9,7 +9,7 @@ exec_target(){
   while [ $# -gt 0 ]; do
     # echo word: "${1@Q}" >&2
     case "${1@Q}" in
-      *":exec'") printf "${1/:exec/ ->} ";;
+      *":exec'") printf "${1/:exec/${US}}";;
       "'-a'") shift;;
       "'-c'") ;;
       "'-l'") ;;
