@@ -18,6 +18,7 @@ can${drv}/bin/sort
 can${drv}/bin/split
 can${drv}/bin/stdbuf
 can${drv}/bin/timeout
+cannot${drv}/bin/[
 cannot${drv}/bin/b2sum
 cannot${drv}/bin/base32
 cannot${drv}/bin/base64
