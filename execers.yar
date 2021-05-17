@@ -147,7 +147,7 @@ rule shell_script
 rule shell_wrapper
 {
     strings:
-        $ = /exec\s+(-a \S+|-c|-l)\s+["']{0,1}[^'"]{2,100}["']{0,1}/
+        $ = /exec\s+((-a \S+|-c|-l|-E)\s+)*["']{0,1}[^'"]{2,100}["']{0,1}/
     condition:
         shell_script and any of them
 }
