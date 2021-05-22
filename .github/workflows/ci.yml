@@ -16,7 +16,10 @@ jobs:
       - run: nix-build ci.nix
       - run: mkdir artifacts
       - run: cp result/* artifacts/
-      - run: find .
+      - name: Generate underlying YARA rule matches
+        run: |
+          nix-build matches.nix
+          cat result > artifacts/matches
       - name: Upload lore
         uses: actions/upload-artifact@v2
         with:
@@ -32,7 +35,10 @@ jobs:
       - run: nix-build ci.nix
       - run: mkdir artifacts
       - run: cp result/* artifacts/
-      - run: find .
+      - name: Generate underlying YARA rule matches
+        run: |
+          nix-build matches.nix
+          cat result > artifacts/matches
       - name: Upload lore
         uses: actions/upload-artifact@v2
         with:
@@ -47,7 +53,13 @@ jobs:
       - uses: actions/checkout@v2
       - name: Download lore
         uses: actions/download-artifact@v2
-      - run: sed -E 's^/nix/store/[a-z0-9]{32}-^ ^' ubuntu-lore/execers > ubuntu
-      - run: sed -E 's^/nix/store/[a-z0-9]{32}-^ ^' macos-lore/execers > macos
-      - run: find .
-      - run: ./compare_ci.py
+      - name: De-hash execer paths
+        run: |
+          sed -E 's^/nix/store/[a-z0-9]{32}-^ ^' ubuntu-lore/execers > ubuntu
+          sed -E 's^/nix/store/[a-z0-9]{32}-^ ^' macos-lore/execers > macos
+      - name: Show raw YARA rule matches for curl, sed, ps on ubuntu
+        run: cat ubuntu-lore/matches
+      - name: Show raw YARA rule matches for curl, sed, ps on macos
+        run: cat macos-lore/matches
+      - name: Compare macos v. ubuntu
+        run: ./compare_ci.py

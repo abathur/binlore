@@ -49,13 +49,13 @@ import "magic"
 import "elf"
 import "macho"
 
-private rule executable
+rule executable //private
 {
     condition:
         magic.type() contains "executable" or magic.type() contains "shared library"
 }
 
-private rule shared_object
+rule shared_object //private
 {
     condition:
         magic.type() contains "shared object"
@@ -65,19 +65,19 @@ private rule shared_object
 Note: an unreadable setuid executable (like sudo) won't have the
       expected type string and won't otherwise be readable
 */
-private rule macho_binary
+rule macho_binary //private
 {
     condition:
         executable and magic.type() contains "Mach-O "
 }
 
-private rule elf_binary
+rule elf_binary //private
 {
     condition:
         (executable or shared_object) and magic.type() contains "ELF "
 }
 
-private rule elf_binary_static
+rule elf_binary_static //private
 {
     condition:
         elf_binary and magic.type() contains "statically linked"
@@ -88,7 +88,7 @@ private rule elf_binary_static
 - since these can syscall, we need to at least figure out if they do
   (even if we don't try to figure out that they syscall execve(at))
 */
-private rule elf_binary_dynamic
+rule elf_binary_dynamic //private
 {
     condition:
         elf_binary and magic.type() contains "dynamically linked"
@@ -152,7 +152,7 @@ rule shell_wrapper
         shell_script and any of them
 }
 
-private rule python_script
+rule python_script //private
 {
     condition:
         script and magic.type() matches /(Python|\/bin\/python\S*) script/
@@ -315,7 +315,7 @@ rule might_exec
 
 /*
 TODO: (caution: documenting this retroactively by several weeks)
-Just sort of documenting what's going on here since this is half-done,
+Just sort of documenting what's going on below since it
 may or may not be useful, and is roughly half-done. I was picking at
 the question of how we'd figure out if anything uses a dylib that
 exposes any API for ~exec behavior.
@@ -328,8 +328,9 @@ a mechanism for analyzing one-off libraries similarly, or just assume
 they're unsafe?
 
 In any case, I don't want to get bogged down chasing this; it can be
-a fidelity improvement later if there are real cases found where it
-is missing an exec?
+a fidelity improvement later if we find someone with the chops to do
+this with high confidence or find real cases where an exec sneaks in
+through this gap.
 
 FWIW: look carefully at perl; I have tabs open with hexdumps of perl
 that I think are from the timeframe when I was looking at this, so it

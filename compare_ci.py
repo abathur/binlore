@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 from collections import defaultdict
 
 packages = set()
@@ -30,6 +31,8 @@ with open("ubuntu") as ubuntu, open("macos") as macos:
         "might->can": 0,
         "might->cannot": 0,
     }
+
+    code = 0
 
     ubuntu_package_verdicts = ingest(ubuntu, "ubuntu")
     macos_package_verdicts = ingest(macos, "macos")
@@ -70,3 +73,7 @@ with open("ubuntu") as ubuntu, open("macos") as macos:
     print("\nSummary of macos -> ubuntu differences:")
     for outcome, count in outcomes.items():
         print("     {:6.6} -> {:6.6}  {:>6}".format(*outcome.split("->"), count))
+        if count > 0:
+            code = 1
+
+sys.exit(code)

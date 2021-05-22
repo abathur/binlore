@@ -22,7 +22,6 @@ in
     diffutils
     doxygen
     ed
-    emacs
     exa
     ffmpeg
     findutils
@@ -37,7 +36,6 @@ in
     gnused
     gzip
     htop
-    jekyll
     jmespath
     jq
     less
@@ -64,7 +62,6 @@ in
     python
     rsync
     rustc
-    sass
     shellcheck
     shfmt
     smenu
