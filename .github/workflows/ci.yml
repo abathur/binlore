@@ -44,9 +44,10 @@ jobs:
     needs: [ubuntu, macos]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Download lore
         uses: actions/download-artifact@v2
+      - run: sed -E 's^/nix/store/[a-z0-9]{32}-^ ^' ubuntu-lore/execers > ubuntu
+      - run: sed -E 's^/nix/store/[a-z0-9]{32}-^ ^' macos-lore/execers > macos
       - run: find .
-      - run: sed -E 's^/nix/store/[a-z0-9]{32}-^ ^' ubuntu-lore/execers | sort -k2 > ubuntu
-      - run: sed -E 's^/nix/store/[a-z0-9]{32}-^ ^' macos-lore/execers | sort -k2 > macos
-      - run: diff -y macos ubuntu
+      - run: ./compare_ci.py
