@@ -197,12 +197,37 @@ rule go_exec
 //         $elf = { 00 65 78 65 63 76 65 (00|4040) }
 rule elf_execve
 {
-    // TODO: AFAIK all I need is the below, but it's worth testing whether a naive
-    // string match on execve as a precondition helps this miss faster?
+    strings:
+        // TODO: AFAIK all I need is the below, but it's worth testing whether a naive
+        // string match on execve as a precondition helps this miss faster?
+        //            e  x  e  c  v  e
+        $_execve = { 65 78 65 63 76 65 }
+        //           e  x  e  c  l
+        $_execl = { 65 78 65 63 6c }
+        //            e  x  e  c  l  p
+        $_execlp = { 65 78 65 63 6c 70 }
+        //            e  x  e  c  l  e
+        $_execle = { 65 78 65 63 6c 65 }
+        //           e  x  e  c  t
+        $_exect = { 65 78 65 63 74 }
+        //           e  x  e  c  v
+        $_execv = { 65 78 65 63 76 }
+        //            e  x  e  c  v  p
+        $_execvp = { 65 78 65 63 76 70 }
+        //            e  x  e  c  v  P
+        $_execvP = { 65 78 65 63 76 50 }
+        //           p  o  p  e  n
+        $_popen = { 70 6f 70 65 6e}
+        //                 p  o  s  i  x  _  s  p  a  w  n
+        $_posix_spawn = { 70 6f 73 69 78 5f 73 70 61 77 6e }
+        //                  p  o  s  i  x  _  s  p  a  w  n  p
+        $_posix_spawnp = { 70 6f 73 69 78 5f 73 70 61 77 6e 70 }
+        //            s  y  s  t  e  m
+        $_system = { 73 79 73 74 65 6d }
     condition:
         // can be a more compact RE, but let's focus
         // on being explicit/clear for now
-        binary and for any sym in elf.dynsym : (sym.name matches /^(execl|execlp|execle|execlp|execv|execve|execveat|execvp|execvpe|fexecve|popen|posix_spawn|posix_spawnp|system)$/)
+        any of them and elf_binary and for any sym in elf.dynsym : (sym.name matches /^(execl|execlp|execle|execlp|execv|execve|execveat|execvp|execvpe|fexecve|popen|posix_spawn|posix_spawnp|system)$/)
 }
 
 rule macho_execve
@@ -218,36 +243,101 @@ rule macho_execve
     // $mac = { 40 5F 65 78 65 63 76 65 00 }
     // (781800..781900), (893300..893400), (899600..899700),
     //$mac = "execve"
-    //            @   _  e  x  e  c  v  e
-    $ = { (00|40) 5F 65 78 65 63 76 65 00 }
-    //            @   _  e  x  e  c  l
-    $ = { (00|40) 5F 65 78 65 63 6c 00 }
-    //            @   _  e  x  e  c  l  p
-    $ = { (00|40) 5F 65 78 65 63 6c 70 00 }
-    //            @   _  e  x  e  c  l  e
-    $ = { (00|40) 5F 65 78 65 63 6c 65 00 }
-    //            @   _  e  x  e  c  t
-    $ = { (00|40) 5F 65 78 65 63 74 00 }
-    //            @   _  e  x  e  c  v
-    $ = { (00|40) 5F 65 78 65 63 76 00 }
-    //            @   _  e  x  e  c  v  p
-    $ = { (00|40) 5F 65 78 65 63 76 70 00 }
-    //            @   _  e  x  e  c  v  P
-    $ = { (00|40) 5F 65 78 65 63 76 50 00 }
-    //            @   _  p  o  p  e  n
-    $ = { (00|40) 5F 70 6f 70 65 6e 00 }
-    //            @   _  p  o  s  i  x  _  s  p  a  w  n
-    $ = { (00|40) 5F 70 6f 73 69 78 5f 73 70 61 77 6e 00 }
-    //            @   _  p  o  s  i  x  _  s  p  a  w  n  p
-    $ = { (00|40) 5F 70 6f 73 69 78 5f 73 70 61 77 6e 70 00 }
-    //            @   _  s  y  s  t  e  m
-    $ = { (00|40) 5F 73 79 73 74 65 6d 00 }
+    //                @   _  e  x  e  c  v  e
+    $_execve = { (00|40) 5F 65 78 65 63 76 65 (00|24) }
+    //               @   _  e  x  e  c  l
+    $_execl = { (00|40) 5F 65 78 65 63 6c (00|24) }
+    //                @   _  e  x  e  c  l  p
+    $_execlp = { (00|40) 5F 65 78 65 63 6c 70 (00|24) }
+    //                @   _  e  x  e  c  l  e
+    $_execle = { (00|40) 5F 65 78 65 63 6c 65 (00|24) }
+    //               @   _  e  x  e  c  t
+    $_exect = { (00|40) 5F 65 78 65 63 74 (00|24) }
+    //               @   _  e  x  e  c  v
+    $_execv = { (00|40) 5F 65 78 65 63 76 (00|24) }
+    //                @   _  e  x  e  c  v  p
+    $_execvp = { (00|40) 5F 65 78 65 63 76 70 (00|24) }
+    //                @   _  e  x  e  c  v  P
+    $_execvP = { (00|40) 5F 65 78 65 63 76 50 (00|24) }
+    //               @   _  p  o  p  e  n
+    $_popen = { (00|40) 5F 70 6f 70 65 6e (00|24)}
+    //                     @   _  p  o  s  i  x  _  s  p  a  w  n
+    $_posix_spawn = { (00|40) 5F 70 6f 73 69 78 5f 73 70 61 77 6e (00|24) }
+    //                      @   _  p  o  s  i  x  _  s  p  a  w  n  p
+    $_posix_spawnp = { (00|40) 5F 70 6f 73 69 78 5f 73 70 61 77 6e 70 (00|24) }
+    //                @   _  s  y  s  t  e  m
+    $_system = { (00|40) 5F 73 79 73 74 65 6d (00|24) }
+
+    /*
+    We want to assert some control over where these can match as substrings.
+    Initially I thought we could do this by always 00-terminating them, but
+    I've found at least one example (gnu-sed) where they're terminated with
+    $DARWIN_EXTSN.
+
+    I guess for now we'll assert *either* 00 or $ at the end of each match.
+
+    I'm doing this to avoid repeating a large variable-length branch to end
+    each string (and to DRY a bit), but this may be premature optimization.
+
+    TODO: when this feels settled, simplify the condition and append darwin
+    extsn from below to every string to see if there's a noteworthy net effect
+    */
+    $DARWIN_EXTSN = { 24 44 41 52 57 49 4e 5f 45 58 54 53 4e } private
+    // $nul = { 00 } private
 
 
     //$mac = { ?? ?? ?? 65 78 65 63 76 65 ?? ?? ??}
     condition:
-        binary and for any segment in macho.segments: (segment.segname == "__LINKEDIT" and for any of them : ($ in (segment.fileoff..(segment.fileoff + segment.fsize))))
+        any of them and for any of ($_*) : ( uint8(@ + ! - 1) == 0x00 or $DARWIN_EXTSN at (@ + ! - 1) ) and binary and for any segment in macho.segments: (segment.segname == "__LINKEDIT" and for any of them : ($ in (segment.fileoff..(segment.fileoff + segment.fsize))))
+        //($popen and  at (@popen + !popen - 1)) or (all of them)
+        // any of them and binary
+        //for any of them : ( @ - 1 == @DARWIN_EXTSN  ) and binary
 }
+
+// old rule before current experiment
+// rule macho_execve
+// {
+//     strings:
+//     // idk which form is more desirable; first is obviously
+//     // more self-documenting
+//     //$mac = "@_execve" fullword
+//     //405f 6578 6563 7665 00
+//     //                  p?
+//     //405f 6578 6563 7670 // there may be a normative 00 here as well?
+//     // 2767040, 3335140?
+//     // $mac = { 40 5F 65 78 65 63 76 65 00 }
+//     // (781800..781900), (893300..893400), (899600..899700),
+//     //$mac = "execve"
+//     //         @   _  e  x  e  c  v  e
+//     $ = { (00|40) 5F 65 78 65 63 76 65 00 }
+//     //         @   _  e  x  e  c  l
+//     $ = { (00|40) 5F 65 78 65 63 6c 00 }
+//     //         @   _  e  x  e  c  l  p
+//     $ = { (00|40) 5F 65 78 65 63 6c 70 00 }
+//     //         @   _  e  x  e  c  l  e
+//     $ = { (00|40) 5F 65 78 65 63 6c 65 00 }
+//     //         @   _  e  x  e  c  t
+//     $ = { (00|40) 5F 65 78 65 63 74 00 }
+//     //         @   _  e  x  e  c  v
+//     $ = { (00|40) 5F 65 78 65 63 76 00 }
+//     //         @   _  e  x  e  c  v  p
+//     $ = { (00|40) 5F 65 78 65 63 76 70 00 }
+//     //         @   _  e  x  e  c  v  P
+//     $ = { (00|40) 5F 65 78 65 63 76 50 00 }
+//     //         @   _  p  o  p  e  n
+//     $ = { (00|40) 5F 70 6f 70 65 6e 00 }
+//     //         @   _  p  o  s  i  x  _  s  p  a  w  n
+//     $ = { (00|40) 5F 70 6f 73 69 78 5f 73 70 61 77 6e 00 }
+//     //         @   _  p  o  s  i  x  _  s  p  a  w  n  p
+//     $ = { (00|40) 5F 70 6f 73 69 78 5f 73 70 61 77 6e 70 00 }
+//     //         @   _  s  y  s  t  e  m
+//     $ = { (00|40) 5F 73 79 73 74 65 6d 00 }
+
+
+//     //$mac = { ?? ?? ?? 65 78 65 63 76 65 ?? ?? ??}
+//     condition:
+//         binary and for any segment in macho.segments: (segment.segname == "__LINKEDIT" and for any of them : ($ in (segment.fileoff..(segment.fileoff + segment.fsize))))
+// }
 
 rule execve
 {
@@ -261,6 +351,26 @@ rule macho_cannot_exec
         macho_binary and not macho_execve
 }
 
+rule elf_cannot_exec
+{
+    condition:
+        elf_binary and not elf_execve
+}
+
+/*
+The intent of this meta-rule is to let the concrete rules
+just *try* to describe/reflect what they *try* to measure
+without having to worry about also reflecting confidence and
+quality in their conditions.
+
+For now, this only gatekeeps *cannot* decisions. While the
+other decisions are ~important, too, "cannot" is the only
+one that resholve won't make the user triage, so it'll be
+harder to notice problems with it (and more consequential).
+
+This rule expresses the conditions we feel reasonably sure
+we can judge correctly.
+*/
 rule decidable
 {
     condition:
@@ -304,7 +414,7 @@ rule can_exec
 rule cannot_exec
 {
     condition:
-        decidable and macho_cannot_exec
+        decidable and (macho_cannot_exec or elf_cannot_exec)
 }
 
 rule might_exec

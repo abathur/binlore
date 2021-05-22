@@ -7,7 +7,7 @@ let
 in runCommand "yara-matches" { } ''
   binlore_yara()(
     set -x
-    ${ouryara}/bin/yara ${rules} $1
+    ${ouryara}/bin/yara --print-strings ${rules} $1
   )
   {
     echo ""
