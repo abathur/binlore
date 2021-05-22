@@ -49,4 +49,4 @@ jobs:
       - run: find .
       - run: sed -E 's^/nix/store/[a-z0-9]{32}-^ ^' ubuntu-lore/execers | sort -k2 > ubuntu
       - run: sed -E 's^/nix/store/[a-z0-9]{32}-^ ^' macos-lore/execers | sort -k2 > macos
-      - run: diff -u macos ubuntu
+      - run: diff -y macos ubuntu
