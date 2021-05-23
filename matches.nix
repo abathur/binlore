@@ -3,7 +3,7 @@ with pkgs;
 let
   inherit (pkgs.callPackage ./deps.nix { }) ouryara;
   rules = ./execers.yar;
-  targets = [ curl gnused ps ];
+  targets = [ curl gcc clang gzip ];
 in runCommand "yara-matches" { } ''
   binlore_yara()(
     set -x

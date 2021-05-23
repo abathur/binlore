@@ -57,7 +57,6 @@ in
     pcre
     perl
     php
-    ps
     pstree
     python
     rsync
