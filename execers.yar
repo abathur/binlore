@@ -429,7 +429,7 @@ it from some other context.
 rule unhandled : abstract
 {
     condition:
-        python_script or node_script or php_script or (shell_script and not shell_wrapper)
+        perl_script or (shell_script and not shell_wrapper) or python_script or node_script or php_script
 }
 
 /*

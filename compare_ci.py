@@ -97,7 +97,11 @@ def ingest(exec_f, wrap_f, label):
 
 with open("ubuntu-lore/execers") as ubuntu_execers, open(
     "ubuntu-lore/wrappers"
-) as ubuntu_wrappers, open("macos-lore/execers") as macos_execers, open(
+) as ubuntu_wrappers, open("ubuntu-lore/unhandled") as ubuntu_unhandled, open(
+    "macos-lore/unhandled"
+) as macos_unhandled, open(
+    "macos-lore/execers"
+) as macos_execers, open(
     "macos-lore/wrappers"
 ) as macos_wrappers:
     outcomes = {
@@ -107,6 +111,11 @@ with open("ubuntu-lore/execers") as ubuntu_execers, open(
         "cannot->might": 0,
         "might->can": 0,
         "might->cannot": 0,
+    }
+
+    unhandled = {
+        "ubuntu": {x.strip() for x in ubuntu_unhandled.readlines()},
+        "macos": {x.strip() for x in macos_unhandled.readlines()},
     }
 
     code = 0
@@ -124,6 +133,12 @@ with open("ubuntu-lore/execers") as ubuntu_execers, open(
             print("!    package differs:", package)
             for path in package_paths[package]:
                 verdicts = path_verdicts[path]
+                for os, verdict in verdicts.items():
+                    if verdict == "might":
+                        assert (
+                            path in unhandled[os]
+                        ), "Let's see if we can enforce only yielding might when unhandled == true?"
+
                 if "macos" not in verdicts:
                     print(
                         "     macos=ABSENT ubuntu={ubuntu} path={:}".format(

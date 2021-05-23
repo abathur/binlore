@@ -85,5 +85,9 @@ jobs:
         run: cat ubuntu-lore/{execers,wrappers}
       - name: Show full binlore on macos
         run: cat macos-lore/{execers,wrappers}
+      - name: Build list of known-unhandled executables
+        run: |
+          grep -oP '(?<=unhandled\s/nix/store/\S{32}-)\S+$' ubuntu-lore/matches > ubuntu-lore/unhandled
+          grep -oP '(?<=unhandled\s/nix/store/\S{32}-)\S+$' macos-lore/matches > macos-lore/unhandled
       - name: Compare macos v. ubuntu
         run: ./compare_ci.py
