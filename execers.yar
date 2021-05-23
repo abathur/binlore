@@ -135,13 +135,13 @@ rule elf_binary_dynamic_unexpected_noglibc
 rule script
 {
     condition:
-        executable and magic.type() matches /script.*?text/
+        executable and magic.type() matches /script.*?(text|binary data)/
 }
 
 rule shell_script
 {
     condition:
-        script and magic.type() matches /(POSIX shell|\/bin\/\w*sh)\s*[-a-z]{,2}\s*script/
+        script and magic.type() matches /(POSIX shell|Bourne-Again shell|\/bin\/\w*sh)\s*[-a-z]{,2}\s*script/
 }
 
 rule shell_wrapper
@@ -152,10 +152,37 @@ rule shell_wrapper
         shell_script and any of them
 }
 
+// Might find wrappers in many other forms, I guess.
+rule wrapper
+{
+    condition:
+        shell_wrapper
+}
+
 rule python_script //private
 {
     condition:
         script and magic.type() matches /(Python|\/bin\/python\S*) script/
+}
+
+rule perl_script //private
+{
+    condition:
+        script and magic.type() matches /(Perl|\/bin\/perl\S*) script/
+}
+
+rule node_script //private
+{
+    condition:
+        // I'm not certain the first form is possible, but
+        // I'll use it for symmetry/just-in-case
+        script and magic.type() matches /(Node|\/bin\/node\S*) script/
+}
+
+rule php_script //private
+{
+    condition:
+        script and magic.type() matches /(PHP|\/bin\/php\S*) script/
 }
 
 /*
@@ -364,11 +391,13 @@ rule go_cannot_exec
 }
 
 /*
-The intent of this meta-rule is to let the concrete rules
+The intent of these 'abstract' rules is to let the concrete rules
 just *try* to describe/reflect what they *try* to measure
 without having to worry about also reflecting confidence and
 quality in their conditions.
+*/
 
+/*
 For now, this only gatekeeps *cannot* decisions. While the
 other decisions are ~important, too, "cannot" is the only
 one that resholve won't make the user triage, so it'll be
@@ -377,7 +406,7 @@ harder to notice problems with it (and more consequential).
 This rule expresses the conditions we feel reasonably sure
 we can judge correctly.
 */
-rule decidable
+rule decidable : abstract
 {
     condition:
         macho_binary or elf_binary or go_binary // or decidable_shell
@@ -391,6 +420,19 @@ rule decidable
 }
 
 /*
+This rule enumerates conditions that we are *identifying*
+but not yet explicitly addressing. In some cases we'll do
+this because we later intend to address the condition, or
+because we need to identify the condition just to exclude
+it from some other context.
+*/
+rule unhandled : abstract
+{
+    condition:
+        python_script or node_script or php_script or (shell_script and not shell_wrapper)
+}
+
+/*
 TODO:
 - I'd like to drop the _exec suffix from all of these at some point
   because it'll bring the format in line with what resholve wants.
@@ -400,17 +442,8 @@ TODO:
   I want to avoid circumstances where a single output:
   - has rule namespace clashes
   - combines rules in a way that make can|cannot|might painfully vague
-
-- I have a format sketch that also used "unknown" but in practice (at
-  least for resholve) any executable that isn't "can" or "cannot"
-  should go be "might".
-
-  I imagined "unknown" disambiguated "we have no rules for trying to
-  make principled decisions about this" from "might". It would still
-  need to be treated as "might" for this top-line use--but maybe there
-  will eventually be some value in discriminating?
 */
-// can|cannot|might
+// can|cannot|might|tbd
 rule can_exec
 {
     condition:
@@ -423,10 +456,25 @@ rule cannot_exec
         decidable and (macho_cannot_exec or elf_cannot_exec or go_cannot_exec)
 }
 
+/*
+Open to a better name here, as I'm afraid it'll be easy to
+confuse this with the practice of marking anything that can't
+be confidently decided as can/cannot into might.
+
+The current narrow purpose of tbd is for wrappers, which
+we have to separately analyze to figure out what they wrap,
+and then take the decision of that executable.
+*/
+rule tbd_exec
+{
+    condition:
+        wrapper
+}
+
 rule might_exec
 {
     condition:
-        executable and not cannot_exec and not can_exec
+        executable and not cannot_exec and not can_exec and not tbd_exec
 }
 
 /*
