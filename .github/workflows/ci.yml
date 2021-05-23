@@ -57,9 +57,13 @@ jobs:
         run: |
           sed -E 's^/nix/store/[a-z0-9]{32}-^ ^' ubuntu-lore/execers > ubuntu
           sed -E 's^/nix/store/[a-z0-9]{32}-^ ^' macos-lore/execers > macos
-      - name: Show raw YARA rule matches for curl, sed, ps on ubuntu
+      - name: Show raw YARA rule matches for ... on ubuntu
         run: cat ubuntu-lore/matches
-      - name: Show raw YARA rule matches for curl, sed, ps on macos
+      - name: Show raw YARA rule matches for ... on macos
         run: cat macos-lore/matches
+      - name: Show full binlore on ubuntu
+        run: cat ubuntu-lore/execers
+      - name: Show full binlore on macos
+        run: cat macos-lore/execers
       - name: Compare macos v. ubuntu
         run: ./compare_ci.py
