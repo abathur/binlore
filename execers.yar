@@ -374,7 +374,7 @@ we can judge correctly.
 rule decidable
 {
     condition:
-        macho_binary// or decidable_shell
+        macho_binary or elf_binary// or decidable_shell
         /*
         note: macho but not ELF because dynamic linking and libsystem
         make me a lot more confident about whether the rudimentary
