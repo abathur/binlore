@@ -2,9 +2,9 @@
 
 Since binlore is very young and currently has a limited scope, the vision may make a little more sense if I outline what it currently does and why.
 
-1. binlore is one of a few tools I'm prototyping to help [resholve](https://github.com/abathur/resholve) decide how likely the executables it finds in shell scripts are to also execute one of their arguments. 
+1. I'm building binlore to help [resholve](https://github.com/abathur/resholve) decide how likely the executables it finds in shell scripts are to also execute one of their arguments. 
 
-    This information will help resholve scrutinize invocations of these executables more carefully and require user triage as-needed (without wasting the user's energy on unlikely cases).
+    This information helps resholve scrutinize these invocations more carefully and require user triage as-needed (without wasting the user time on unlikely cases).
 
 2. binlore itself is a Nix API with two main functions:
     - `make` which builds a derivation that runs a black-box we'll call `[analysis]` for a single package and outputs a directory with one or more named files containing some or all of the output from that analysis.
@@ -20,6 +20,8 @@ Since binlore is very young and currently has a limited scope, the vision may ma
             - and `executable_path` is whatever path YARA printed for the match
         - `$out/wrappers`, which has the format `${wrapper_path} -> ${wrapped_path}`
             - not using this yet, so the format is even more likely to change
+
+    I'm not certain what relationship binlore will have to individual analyses. I'd like it to be easy to add analyses.
 
 4. resholve's own uses of binlore serve as a good example of the rough intent
     - direct use for CI run: https://github.com/abathur/resholve/commit/52faf7493c51e5191de771eb49b8c12df90357cd#diff-783b1f6267f9b548283102092f66f71ac066b9e7b0917de0663e0269e1e26848R168

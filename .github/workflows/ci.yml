@@ -77,10 +77,10 @@ jobs:
         run: cat macos-lore/matches
       - name: Show raw YARA matches for 'might' rules on ubuntu
         run: |
-          grep -f <(grep -oP '(?<=might..)\S+$' ubuntu-lore/execers) ubuntu-lore/matches
+          grep -w -f <(grep -oP '(?<=might..)\S+$' ubuntu-lore/execers) ubuntu-lore/matches
       - name: Show raw YARA matches for 'might' rules on macos
         run: |
-          grep -f <(grep -oP '(?<=might..)\S+$' macos-lore/execers) macos-lore/matches
+          grep -w -f <(grep -oP '(?<=might..)\S+$' macos-lore/execers) macos-lore/matches
       - name: Show full binlore on ubuntu
         run: cat ubuntu-lore/{execers,wrappers}
       - name: Show full binlore on macos

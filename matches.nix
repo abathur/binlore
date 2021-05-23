@@ -12,9 +12,13 @@ in runCommand "yara-matches" { } ''
   {
     echo ""
     for package in ${toString targets}; do
-      echo "Showing yara rule matches for package $package"
+      echo "YARA rule matches for package $package"
       echo ""
       binlore_yara $package/bin
+      echo ""
+      echo "File types"
+      echo ""
+      ${file}/bin/file $package/bin/*
       echo ""
     done
   } > $out
