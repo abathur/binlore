@@ -9,7 +9,7 @@ exec_target(){
   while [ $# -gt 0 ]; do
     # echo word: "${1@Q}" >&2
     case "${1@Q}" in
-      *":exec'") printf "${1/:exec/${US}}";;
+      *":exec'") printf -v wrapper "${1/:exec/${US}}";;
       "'-a'") shift;;
       "'-c'") ;;
       "'-l'") ;;
@@ -17,9 +17,11 @@ exec_target(){
       *'$0'*|*'${0'*) ;; #echo zeroargs: $1 >&2 ;;
       *)
         # echo default: ${1//[\'\"]/} >&2
+        # swallow wrappers that don't resolve to an executable
+        # TODO: should this be an error of some kind?
         if [[ -x "${1//[\'\"]/}" ]]; then
           # echo file: ${1//[\'\"]/} >&2
-          echo ${1//[\'\"]/}
+          echo ${wrapper}${1//[\'\"]/}
         fi
         ;;
     esac
