@@ -6,8 +6,10 @@ let
 
 in
   binlore.collect { drvs = [
+    ag
     antlr
     asmfmt
+    bat
     bc
     bison
     brotli
@@ -19,9 +21,12 @@ in
     coreutils
     curl
     dash
+    dig
     diffutils
+    docker
     doxygen
     ed
+    emacs
     exa
     ffmpeg
     findutils
@@ -34,18 +39,26 @@ in
     gnumake
     gnupatch
     gnused
+    gnutar
+    grc
     gzip
+    heroku
     htop
+    hub
     jmespath
     jq
+    kubectl
     less
     llvm
     loc
     lsof
     lynx
     man
+    mercury
     more
+    nano
     ncurses
+    neovim
     ninja
     nmap
     openssh
@@ -59,19 +72,30 @@ in
     php
     pstree
     python
+    ranger
+    rlwrap
     rsync
+    ruby
     rustc
+    screen
     shellcheck
     shfmt
     smenu
+    sqlite
     textql
     time
     tmate
     tmux
+    tree
     unzip
+    vagrant
     vault
     vim
+    wget
     xz
     yacc
     yaml2json
-  ]; }
+    yarn
+    youtube-dl
+  ] ++ stdenv.lib.optionals (!stdenv.isDarwin) [ pacman sudo ];
+}
