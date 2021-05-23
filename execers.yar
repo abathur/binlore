@@ -288,7 +288,7 @@ rule macho_execve
 
     //$mac = { ?? ?? ?? 65 78 65 63 76 65 ?? ?? ??}
     condition:
-        any of them and for any of ($_*) : ( uint8(@ + ! - 1) == 0x00 or $DARWIN_EXTSN at (@ + ! - 1) ) and binary and for any segment in macho.segments: (segment.segname == "__LINKEDIT" and for any of them : ($ in (segment.fileoff..(segment.fileoff + segment.fsize))))
+        any of them and for any of ($_*) : ( uint8(@ + ! - 1) == 0x00 or $DARWIN_EXTSN at (@ + ! - 1) ) and macho_binary and for any segment in macho.segments: (segment.segname == "__LINKEDIT" and for any of them : ($ in (segment.fileoff..(segment.fileoff + segment.fsize))))
         //($popen and  at (@popen + !popen - 1)) or (all of them)
         // any of them and binary
         //for any of them : ( @ - 1 == @DARWIN_EXTSN  ) and binary
@@ -354,7 +354,13 @@ rule macho_cannot_exec
 rule elf_cannot_exec
 {
     condition:
-        elf_binary and not elf_execve
+        elf_binary and not (go_exec or elf_execve)
+}
+
+rule go_cannot_exec
+{
+    condition:
+        go_binary and not go_exec
 }
 
 /*
@@ -374,7 +380,7 @@ we can judge correctly.
 rule decidable
 {
     condition:
-        macho_binary or elf_binary// or decidable_shell
+        macho_binary or elf_binary or go_binary // or decidable_shell
         /*
         note: macho but not ELF because dynamic linking and libsystem
         make me a lot more confident about whether the rudimentary
@@ -414,7 +420,7 @@ rule can_exec
 rule cannot_exec
 {
     condition:
-        decidable and (macho_cannot_exec or elf_cannot_exec)
+        decidable and (macho_cannot_exec or elf_cannot_exec or go_cannot_exec)
 }
 
 rule might_exec
