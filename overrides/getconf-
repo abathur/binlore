@@ -1,0 +1,17 @@
+# notes:
+# - this technically targets getconf-1003.1-2008, but the real target is getconf via darwin.system_cmds
+
+execers(){
+	cat > $out/execers
+} <<EOF
+cannot${drv}/bin/getconf
+EOF
+
+wrappers(){
+	cat > $out/wrappers
+} <<EOF
+EOF
+
+for type in "$@"; do
+	$type
+done

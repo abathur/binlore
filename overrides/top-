@@ -1,0 +1,17 @@
+# notes:
+# - this technically targets top-1003.1-2008, but the real "goal" is procps top which will also manifest as unixtools.top depending on platform and how it's specified
+
+execers(){
+	cat > $out/execers
+} <<EOF
+cannot${drv}/bin/top
+EOF
+
+wrappers(){
+	cat > $out/wrappers
+} <<EOF
+EOF
+
+for type in "$@"; do
+	$type
+done

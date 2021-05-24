@@ -1,0 +1,17 @@
+# notes:
+# - this technically targets ps-1003.1-2008, but the real "goal" is procps ps which will also manifest as ps depending on platform and how it's specified
+
+execers(){
+	cat > $out/execers
+} <<EOF
+cannot${drv}/bin/ps
+EOF
+
+wrappers(){
+	cat > $out/wrappers
+} <<EOF
+EOF
+
+for type in "$@"; do
+	$type
+done

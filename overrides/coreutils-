@@ -3,7 +3,6 @@
 # - runcon is technically only an execer on some platforms (it needs
 #   selinux and I think calls get optimized away w/o it?)
 # - first swing at an override; unsure about format/patterns
-# - doesn't yet handle wrappers
 
 execers(){
 	cat > $out/execers

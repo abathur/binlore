@@ -53,7 +53,7 @@ package_paths = defaultdict(set)
 path_verdicts = defaultdict(dict)
 
 
-def ingest(exec_f, wrap_f, label):
+def ingest(exec_f, wrap_f, unhandled, label):
     execlore = read_execers(exec_f)
     wraplore = read_wrappers(wrap_f)
 
@@ -74,6 +74,12 @@ def ingest(exec_f, wrap_f, label):
             )
         else:
             seen.add(path)
+
+        if verdict == "might" and path not in unhandled:
+            raise Exception(
+                "Let's see if we can enforce only yielding might when unhandled == true? %r %r %r"
+                % (label, path, unhandled)
+            )
 
         package, _executable = path.split("/bin/")
         packages.add(package)
@@ -120,8 +126,12 @@ with open("ubuntu-lore/execers") as ubuntu_execers, open(
 
     code = 0
 
-    ubuntu_package_verdicts = ingest(ubuntu_execers, ubuntu_wrappers, "ubuntu")
-    macos_package_verdicts = ingest(macos_execers, macos_wrappers, "macos")
+    ubuntu_package_verdicts = ingest(
+        ubuntu_execers, ubuntu_wrappers, unhandled["ubuntu"], "ubuntu"
+    )
+    macos_package_verdicts = ingest(
+        macos_execers, macos_wrappers, unhandled["macos"], "macos"
+    )
 
     for package in packages:
         diff = macos_package_verdicts[package].symmetric_difference(
@@ -133,11 +143,6 @@ with open("ubuntu-lore/execers") as ubuntu_execers, open(
             print("!    package differs:", package)
             for path in package_paths[package]:
                 verdicts = path_verdicts[path]
-                for os, verdict in verdicts.items():
-                    if verdict == "might":
-                        assert (
-                            path in unhandled[os]
-                        ), "Let's see if we can enforce only yielding might when unhandled == true?"
 
                 if "macos" not in verdicts:
                     print(

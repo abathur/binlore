@@ -1,0 +1,17 @@
+# notes:
+# - this technically targets quota-1003.1-2008
+
+execers(){
+	cat > $out/execers
+} <<EOF
+cannot${drv}/bin/quota
+EOF
+
+wrappers(){
+	cat > $out/wrappers
+} <<EOF
+EOF
+
+for type in "$@"; do
+	$type
+done
