@@ -68,7 +68,13 @@ with pkgs; [
     unixtools.killall
     kubectl
     less
-    llvm
+    llvm_5
+    llvm_6
+    llvm_7
+    llvm_8
+    llvm_9
+    llvm_10
+    llvm_11
     loc
     unixtools.locale
     lsof
