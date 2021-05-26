@@ -1,5 +1,15 @@
 
-wrappers="$(mktemp)" execer="$(mktemp)"
+# $1 = verdict
+# $2 = line (path)
+execer(){
+  printf "$1"
+}
+
+if [[ -n "$1" ]]; then
+  source "$1"
+fi
+
+wrappers="$(mktemp)" execers="$(mktemp)"
 # echo $wrappers $execer # debug
 US=$'\x1f'
 
@@ -38,14 +48,14 @@ yallback:rule:shell_wrapper:all(){
 report_execers(){
   rule="${1/_exec/}"
   while read -r line; do
-    echo "$rule${US}$line"
+    echo "$(execer "$rule" "${line##*$drv/bin/}")${US}$line"
   done
-} >> "$execer" # 1>&$execer
+} >> "$execers" # 1>&$execer
 
 alias yallback:rule:can_exec:all=report_execers yallback:rule:cannot_exec:all=report_execers yallback:rule:might_exec:all=report_execers
 
 yallback:done(){
-  sort "$execer" > $out/execers
+  sort "$execers" > $out/execers
   sort "$wrappers" > $out/wrappers
   # TODO:
   # I wanted to just output wrappers that point to

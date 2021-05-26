@@ -1,17 +1,17 @@
 # notes:
 # - this technically targets mount-1003.1-2008
 
-execers(){
-	cat > $out/execers
-} <<EOF
-cannot${drv}/bin/mount
-EOF
+# $1 = verdict
+# $2 = executable
+execer(){
+	case "$2" in
+		mount)
+			printf "cannot"
+			;;
+		*)
+			echo error, bill bobbinson! 1>&2
+			exit 2
+			;;
+	esac
+}
 
-wrappers(){
-	cat > $out/wrappers
-} <<EOF
-EOF
-
-for type in "$@"; do
-	$type
-done

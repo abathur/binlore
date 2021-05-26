@@ -4,7 +4,19 @@
 #   selinux and I think calls get optimized away w/o it?)
 # - first swing at an override; unsure about format/patterns
 
-execers(){
+# $1 = verdict
+# $2 = executable
+execer(){
+	case "$2" in
+		chroot|env|install|nice|nohup|runcon|sort|split|stdbuf|timeout)
+			printf "can"
+			;;
+		*)
+			printf "cannot"
+			;;
+	esac
+}
+execers2(){
 	cat > $out/execers
 } <<EOF
 can${drv}/bin/chroot
@@ -115,11 +127,15 @@ cannot${drv}/bin/whoami
 cannot${drv}/bin/yes
 EOF
 
-wrappers(){
-	cat > $out/wrappers
-} <<EOF
-EOF
-
-for type in "$@"; do
-	$type
-done
+# wrapper(){
+# 	case "$1" in
+# 		*/bin/{chroot,env,install,nice,nohup,runcon,sort,split,stdbuf,timeout})
+# 			echo bawlz;;
+# 		*)
+# 			echo "$1"
+# 	esac
+# }
+# wrappers2(){
+# 	cat > $out/wrappers
+# } <<EOF
+# EOF

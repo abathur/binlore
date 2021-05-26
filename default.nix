@@ -48,10 +48,30 @@ let
     #   in here, but I'm erring on the side of flexibility
     #   since this form will make it easier to pilot other
     #   uses of binlore.
-    callback = lore: drv: ''
+    callback = lore: drv: overrides: ''
       echo generating binlore for $drv by running:
       echo "${ouryara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback}"
-      ${ouryara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback}
+    '' +
+    /*
+    Override lore for some packages. Unsure, but for now:
+    1. start with the ~name (pname-version)
+    2. remove characters from the end until we find a match
+       in overrides/
+    3. execute the override script with the list of expected
+       lore types
+    */
+    ''
+      i=''${#identifier}
+      filter=
+      while [[ $i > 0 ]]; do
+        ((i--)) || true # don't break build
+        if [[ -f "${overrides}/''${identifier:0:$i}" ]]; then
+          filter="${overrides}/''${identifier:0:$i}"
+          echo using "${overrides}/''${identifier:0:$i}" to generate overriden binlore for $drv
+          break
+        fi
+      done # || true # don't break build
+      ${ouryara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback} "$filter"
     '';
   };
   overrides = ./overrides;
@@ -70,28 +90,9 @@ in rec {
     } (''
     mkdir $out
     touch $out/{${builtins.concatStringsSep "," lore.types}}
-    '' +
-    /*
-    Override lore for some packages. Unsure, but for now:
-    1. start with the ~name (pname-version)
-    2. remove characters from the end until we find a match
-       in overrides/
-    3. execute the override script with the list of expected
-       lore types
-    */
-    ''
-    i=''${#identifier}
-    while [[ $i > 0 ]]; do
-      ((i--)) || true # don't break build
-      if [[ -f "${overrides}/''${identifier:0:$i}" ]]; then
-        echo using "${overrides}/''${identifier:0:$i}" to generate overriden binlore for $drv
-        ${bash}/bin/bash "${overrides}/''${identifier:0:$i}" ${toString lore.types}
-        break
-      fi
-    done # || true # don't break build
-    if [[ $i == 0 ]]; then
-      ${lore.callback lore drv}
-    fi
+
+    ${lore.callback lore drv overrides}
+
     echo binlore written to $out
   '');
 }

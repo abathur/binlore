@@ -14,11 +14,11 @@
     patches = [];
   });
 
-  # yallback = callPackage (../yallback) {};
+  # yallback = callPackage (../yallback) { };
   yallback = callPackage (fetchFromGitHub {
     owner = "abathur";
     repo = "yallback";
-    rev = "2768b5d81f7f3086b8a1399779bf6e7d3844dfe4";
-    hash = "sha256-9VkHvqrj6YLTyKyQatZj9qZFpDjpQ1FU5fDOCbQ+KV8=";
+    rev = "28d625874596dddacdf4923bd25308ed26e36709";
+    hash = "sha256-v7q9no9Fj+vY44TwpDimvvjUFxdkntGUIZXpqgXU5dE=";
   }) { };
 }

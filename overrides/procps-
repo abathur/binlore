@@ -1,17 +1,15 @@
 # notes:
 
-execers(){
-	cat > $out/execers
-} <<EOF
-cannot${drv}/bin/ps
-cannot${drv}/bin/top
-EOF
-
-wrappers(){
-	cat > $out/wrappers
-} <<EOF
-EOF
-
-for type in "$@"; do
-	$type
-done
+# $1 = verdict
+# $2 = executable
+execer(){
+	case "$2" in
+		ps|top)
+			printf "cannot"
+			;;
+		*)
+			echo error, bill bobbinson! 1>&2
+			exit 2
+			;;
+	esac
+}

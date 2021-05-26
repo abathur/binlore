@@ -1,0 +1,31 @@
+# notes:
+# - the canonical copy of this is "cctools-", which targets cctools-binutils* and cctools-port*
+# - clang-, and gcc- all also symlink to this
+# - I am not 100% sure I won't need binutils-, but AFAICT it will only show up as cctools-binutils on macOS, and the macOS definition is the only one we're really targeting
+
+# $1 = verdict
+# $2 = executable
+execer(){
+	case "$2" in
+		as)
+			printf "cannot"
+			;;
+		*)
+			printf "$1"
+			;;
+	esac
+}
+
+I guess I'll make one canonical copy as cctools- and then symlink the rest
+
+
+IDK if I need bootstrap-tools-, but it'd cover bootstrap-tools/bin/as
+cctools- covers
+	cctools-binutils-darwin-949.0.1/bin/as
+	cctools-binutils-darwin-wrapper-949.0.1/bin/as
+	cctools-port-949.0.1/bin/as
+	cctools-port-949.0.1/bin/as
+clang-wrapper- covers clang-wrapper-clang-wrapper-7.1.0/bin/as
+gcc-wrapper- covers gcc-wrapper-7.3.0/bin/as
+
+/nix/store/6jysbyhc43sjvfiyh1bpvi1n3zbz212r-bootstrap-tools/bin/as

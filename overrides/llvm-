@@ -1,16 +1,14 @@
 # notes:
-# - this technically targets locale-1003.1-2008
 
 # $1 = verdict
 # $2 = executable
 execer(){
 	case "$2" in
-		locale)
+		llvm-tblgen)
 			printf "cannot"
 			;;
 		*)
-			echo error, bill bobbinson! 1>&2
-			exit 2
+			printf "$1"
 			;;
 	esac
 }
