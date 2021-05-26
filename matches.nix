@@ -3,7 +3,13 @@ with pkgs;
 let
   inherit (pkgs.callPackage ./deps.nix { }) ouryara;
   rules = ./execers.yar;
-  targets = (import ./big.nix {});
+  sudo = if pkgs.stdenv.isDarwin
+    then pkgs.runCommand "impure-native-darwin-sudo" { } ''
+      mkdir -p $out/bin
+      ln -s /usr/bin/sudo $out/bin/sudo
+    '' else pkgs.sudo;
+  # targets = [ sudo ];
+  targets = (import ./big.nix { inherit sudo; });
 in runCommand "yara-matches" { } ''
   binlore_yara()(
     set -x

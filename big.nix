@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> { } }:
+{ sudo, pkgs ? import <nixpkgs> { } }:
 
 with pkgs; [
     ag
