@@ -96,7 +96,7 @@ with pkgs; [
     patchutils
     pcre
     perl
-    php
+    # php temp disable tue may 25; for some reason this is building suddenly, and it eats a fair chunk of build time
     # unixtools.ping
     unixtools.ps
     pstree
@@ -114,6 +114,7 @@ with pkgs; [
     shfmt
     smenu
     sqlite
+    sudo
     unixtools.sysctl
     textql
     time
@@ -140,5 +141,4 @@ with pkgs; [
     unixtools.logger
     unixtools.wall
     pacman
-    sudo
 ]
