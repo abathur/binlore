@@ -7,6 +7,7 @@ let
     then pkgs.runCommand "impure-native-darwin-sudo" { } ''
       mkdir -p $out/bin
       ln -s /usr/bin/sudo $out/bin/sudo
+      ln -s /usr/sbin/sudo $out/bin/visudo
     '' else pkgs.sudo;
   # targets = [ sudo ];
   targets = (import ./big.nix { inherit sudo; });

@@ -16,16 +16,16 @@ execer(){
 	esac
 }
 
-I guess I'll make one canonical copy as cctools- and then symlink the rest
+# I guess I'll make one canonical copy as cctools- and then symlink the rest
 
 
-IDK if I need bootstrap-tools-, but it'd cover bootstrap-tools/bin/as
-cctools- covers
-	cctools-binutils-darwin-949.0.1/bin/as
-	cctools-binutils-darwin-wrapper-949.0.1/bin/as
-	cctools-port-949.0.1/bin/as
-	cctools-port-949.0.1/bin/as
-clang-wrapper- covers clang-wrapper-clang-wrapper-7.1.0/bin/as
-gcc-wrapper- covers gcc-wrapper-7.3.0/bin/as
+# IDK if I need bootstrap-tools-, but it'd cover bootstrap-tools/bin/as
+# cctools- covers
+# 	cctools-binutils-darwin-949.0.1/bin/as
+# 	cctools-binutils-darwin-wrapper-949.0.1/bin/as
+# 	cctools-port-949.0.1/bin/as
+# 	cctools-port-949.0.1/bin/as
+# clang-wrapper- covers clang-wrapper-clang-wrapper-7.1.0/bin/as
+# gcc-wrapper- covers gcc-wrapper-7.3.0/bin/as
 
-/nix/store/6jysbyhc43sjvfiyh1bpvi1n3zbz212r-bootstrap-tools/bin/as
+# /nix/store/6jysbyhc43sjvfiyh1bpvi1n3zbz212r-bootstrap-tools/bin/as

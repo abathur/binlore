@@ -5,10 +5,6 @@ execer(){
   printf "$1"
 }
 
-if [[ -n "$1" ]]; then
-  source "$1"
-fi
-
 wrappers="$(mktemp)" execers="$(mktemp)"
 # echo $wrappers $execer # debug
 US=$'\x1f'
@@ -64,3 +60,7 @@ yallback:done(){
   # to cross-reference to answer this question.
   # comm -12 "$wrappers" "$execer"
 }
+
+if [[ -n "$1" ]]; then
+  source "$1"
+fi

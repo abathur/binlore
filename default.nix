@@ -63,13 +63,13 @@ let
     ''
       i=''${#identifier}
       filter=
-      while [[ $i > 0 ]]; do
-        ((i--)) || true # don't break build
+      while [[ $i > 0 ]] && [[ -z "$filter" ]]; do
         if [[ -f "${overrides}/''${identifier:0:$i}" ]]; then
           filter="${overrides}/''${identifier:0:$i}"
           echo using "${overrides}/''${identifier:0:$i}" to generate overriden binlore for $drv
           break
         fi
+        ((i--)) || true # don't break build
       done # || true # don't break build
       ${ouryara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback} "$filter"
     '';

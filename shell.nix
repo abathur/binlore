@@ -3,9 +3,15 @@ with pkgs;
 let
   inherit (pkgs.callPackage ./deps.nix { }) ouryara;
   rules = ./execers.yar;
-  targets = [ curl gnused ps ];
+  sudo = if pkgs.stdenv.isDarwin
+    then pkgs.runCommand "impure-native-darwin-sudo" { } ''
+      mkdir -p $out/bin
+      ln -s /usr/bin/sudo $out/bin/sudo
+      ln -s /usr/sbin/sudo $out/bin/visudo
+    '' else pkgs.sudo;
+  targets = [ sudo coreutils ];
 in pkgs.mkShell {
-  buildInputs = [ ouryara xxd ];
+  buildInputs = [ ouryara xxd sudo ];
   shellHook = ''
   binlore_yara(){
     ${ouryara}/bin/yara ${rules} $1
