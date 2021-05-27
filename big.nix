@@ -1,4 +1,4 @@
-{ sudo, pkgs ? import <nixpkgs> { } }:
+{ pkgs ? import <nixpkgs> { } }:
 
 with pkgs; [
     ag
@@ -114,7 +114,7 @@ with pkgs; [
     shfmt
     smenu
     sqlite
-    sudo
+    # sudo disabled because nix+sudo doesn't work like this; it needs a wrapper and isn't cross-platform
     unixtools.sysctl
     textql
     time

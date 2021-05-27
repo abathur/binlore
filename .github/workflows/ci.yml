@@ -11,6 +11,8 @@ jobs:
   ubuntu:
     runs-on: ubuntu-latest
     steps:
+      - name: List setuid-wrapper equivalents?
+        run: which -a chsh dbus-daemon-launch-helper fusermount3 fusermount kcheckpass kwin_wayland mount newgidmap newgrp newuidmap passwd ping pkexec polkit-agent-helper-1 sg start_kdeinit sudoedit sudo su umount unix_chkpwd || true
       - uses: actions/checkout@v2
       - uses: cachix/install-nix-action@v12
         with:
@@ -38,6 +40,8 @@ jobs:
   macos:
     runs-on: macos-latest
     steps:
+      - name: List setuid-wrapper equivalents?
+        run: which -a chsh dbus-daemon-launch-helper fusermount3 fusermount kcheckpass kwin_wayland mount newgidmap newgrp newuidmap passwd ping pkexec polkit-agent-helper-1 sg start_kdeinit sudoedit sudo su umount unix_chkpwd || true
       - uses: actions/checkout@v2
       - uses: cachix/install-nix-action@v12
         with:
