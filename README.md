@@ -14,9 +14,9 @@ Since binlore is very young and currently has a limited scope, the vision may ma
 3. the only `[analysis]` so far meets resholve's immediate needs:
     - runs YARA with a [single YARA ruleset](execers.yar) on `${package}/bin` 
     - pipes the output through [yallback](https://github.com/abathur/yallback) (which supports shell callbacks for rule matches) using a [single callback script](execers.yall) to extract two "kinds" of lore:
-        - `$out/execers`, which has the format: `${verdict}${UNIT_SEPARATOR}${executable_path}` where:
+        - `$out/execers`, which has the format: `${verdict}${FIELD_SEPARATOR}${executable_path}` where:
             - `verdict=can|cannot|might`
-            - `UNIT_SEPARATOR=$'\x1f'`
+            - `FIELD_SEPARATOR=$':'`
             - and `executable_path` is whatever path YARA printed for the match
         - `$out/wrappers`, which has the format `${wrapper_path} -> ${wrapped_path}`
             - not using this yet, so the format is even more likely to change

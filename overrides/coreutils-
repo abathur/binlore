@@ -19,112 +19,112 @@ execer(){
 execers2(){
 	cat > $out/execers
 } <<EOF
-can${drv}/bin/chroot
-can${drv}/bin/env
-can${drv}/bin/install
-can${drv}/bin/nice
-can${drv}/bin/nohup
-can${drv}/bin/runcon
-can${drv}/bin/sort
-can${drv}/bin/split
-can${drv}/bin/stdbuf
-can${drv}/bin/timeout
-cannot${drv}/bin/[
-cannot${drv}/bin/b2sum
-cannot${drv}/bin/base32
-cannot${drv}/bin/base64
-cannot${drv}/bin/basename
-cannot${drv}/bin/basenc
-cannot${drv}/bin/cat
-cannot${drv}/bin/chcon
-cannot${drv}/bin/chgrp
-cannot${drv}/bin/chmod
-cannot${drv}/bin/chown
-cannot${drv}/bin/cksum
-cannot${drv}/bin/comm
-cannot${drv}/bin/cp
-cannot${drv}/bin/csplit
-cannot${drv}/bin/cut
-cannot${drv}/bin/date
-cannot${drv}/bin/dd
-cannot${drv}/bin/df
-cannot${drv}/bin/dir
-cannot${drv}/bin/dircolors
-cannot${drv}/bin/dirname
-cannot${drv}/bin/du
-cannot${drv}/bin/echo
-cannot${drv}/bin/expand
-cannot${drv}/bin/expr
-cannot${drv}/bin/factor
-cannot${drv}/bin/false
-cannot${drv}/bin/fmt
-cannot${drv}/bin/fold
-cannot${drv}/bin/groups
-cannot${drv}/bin/head
-cannot${drv}/bin/hostid
-cannot${drv}/bin/id
-cannot${drv}/bin/join
-cannot${drv}/bin/kill
-cannot${drv}/bin/link
-cannot${drv}/bin/ln
-cannot${drv}/bin/logname
-cannot${drv}/bin/ls
-cannot${drv}/bin/md5sum
-cannot${drv}/bin/mkdir
-cannot${drv}/bin/mkfifo
-cannot${drv}/bin/mknod
-cannot${drv}/bin/mktemp
-cannot${drv}/bin/mv
-cannot${drv}/bin/nl
-cannot${drv}/bin/nproc
-cannot${drv}/bin/numfmt
-cannot${drv}/bin/od
-cannot${drv}/bin/paste
-cannot${drv}/bin/pathchk
-cannot${drv}/bin/pinky
-cannot${drv}/bin/pr
-cannot${drv}/bin/printenv
-cannot${drv}/bin/printf
-cannot${drv}/bin/ptx
-cannot${drv}/bin/pwd
-cannot${drv}/bin/readlink
-cannot${drv}/bin/realpath
-cannot${drv}/bin/rm
-cannot${drv}/bin/rmdir
-cannot${drv}/bin/seq
-cannot${drv}/bin/sha1sum
-cannot${drv}/bin/sha224sum
-cannot${drv}/bin/sha256sum
-cannot${drv}/bin/sha384sum
-cannot${drv}/bin/sha512sum
-cannot${drv}/bin/shred
-cannot${drv}/bin/shuf
-cannot${drv}/bin/sleep
-cannot${drv}/bin/stat
-cannot${drv}/bin/stty
-cannot${drv}/bin/sum
-cannot${drv}/bin/sync
-cannot${drv}/bin/tac
-cannot${drv}/bin/tail
-cannot${drv}/bin/tee
-cannot${drv}/bin/test
-cannot${drv}/bin/touch
-cannot${drv}/bin/tr
-cannot${drv}/bin/true
-cannot${drv}/bin/truncate
-cannot${drv}/bin/tsort
-cannot${drv}/bin/tty
-cannot${drv}/bin/uname
-cannot${drv}/bin/unexpand
-cannot${drv}/bin/uniq
-cannot${drv}/bin/unlink
-cannot${drv}/bin/uptime
-cannot${drv}/bin/users
-cannot${drv}/bin/vdir
-cannot${drv}/bin/wc
-cannot${drv}/bin/who
-cannot${drv}/bin/whoami
-cannot${drv}/bin/yes
+can:${drv}/bin/chroot
+can:${drv}/bin/env
+can:${drv}/bin/install
+can:${drv}/bin/nice
+can:${drv}/bin/nohup
+can:${drv}/bin/runcon
+can:${drv}/bin/sort
+can:${drv}/bin/split
+can:${drv}/bin/stdbuf
+can:${drv}/bin/timeout
+cannot:${drv}/bin/[
+cannot:${drv}/bin/b2sum
+cannot:${drv}/bin/base32
+cannot:${drv}/bin/base64
+cannot:${drv}/bin/basename
+cannot:${drv}/bin/basenc
+cannot:${drv}/bin/cat
+cannot:${drv}/bin/chcon
+cannot:${drv}/bin/chgrp
+cannot:${drv}/bin/chmod
+cannot:${drv}/bin/chown
+cannot:${drv}/bin/cksum
+cannot:${drv}/bin/comm
+cannot:${drv}/bin/cp
+cannot:${drv}/bin/csplit
+cannot:${drv}/bin/cut
+cannot:${drv}/bin/date
+cannot:${drv}/bin/dd
+cannot:${drv}/bin/df
+cannot:${drv}/bin/dir
+cannot:${drv}/bin/dircolors
+cannot:${drv}/bin/dirname
+cannot:${drv}/bin/du
+cannot:${drv}/bin/echo
+cannot:${drv}/bin/expand
+cannot:${drv}/bin/expr
+cannot:${drv}/bin/factor
+cannot:${drv}/bin/false
+cannot:${drv}/bin/fmt
+cannot:${drv}/bin/fold
+cannot:${drv}/bin/groups
+cannot:${drv}/bin/head
+cannot:${drv}/bin/hostid
+cannot:${drv}/bin/id
+cannot:${drv}/bin/join
+cannot:${drv}/bin/kill
+cannot:${drv}/bin/link
+cannot:${drv}/bin/ln
+cannot:${drv}/bin/logname
+cannot:${drv}/bin/ls
+cannot:${drv}/bin/md5sum
+cannot:${drv}/bin/mkdir
+cannot:${drv}/bin/mkfifo
+cannot:${drv}/bin/mknod
+cannot:${drv}/bin/mktemp
+cannot:${drv}/bin/mv
+cannot:${drv}/bin/nl
+cannot:${drv}/bin/nproc
+cannot:${drv}/bin/numfmt
+cannot:${drv}/bin/od
+cannot:${drv}/bin/paste
+cannot:${drv}/bin/pathchk
+cannot:${drv}/bin/pinky
+cannot:${drv}/bin/pr
+cannot:${drv}/bin/printenv
+cannot:${drv}/bin/printf
+cannot:${drv}/bin/ptx
+cannot:${drv}/bin/pwd
+cannot:${drv}/bin/readlink
+cannot:${drv}/bin/realpath
+cannot:${drv}/bin/rm
+cannot:${drv}/bin/rmdir
+cannot:${drv}/bin/seq
+cannot:${drv}/bin/sha1sum
+cannot:${drv}/bin/sha224sum
+cannot:${drv}/bin/sha256sum
+cannot:${drv}/bin/sha384sum
+cannot:${drv}/bin/sha512sum
+cannot:${drv}/bin/shred
+cannot:${drv}/bin/shuf
+cannot:${drv}/bin/sleep
+cannot:${drv}/bin/stat
+cannot:${drv}/bin/stty
+cannot:${drv}/bin/sum
+cannot:${drv}/bin/sync
+cannot:${drv}/bin/tac
+cannot:${drv}/bin/tail
+cannot:${drv}/bin/tee
+cannot:${drv}/bin/test
+cannot:${drv}/bin/touch
+cannot:${drv}/bin/tr
+cannot:${drv}/bin/true
+cannot:${drv}/bin/truncate
+cannot:${drv}/bin/tsort
+cannot:${drv}/bin/tty
+cannot:${drv}/bin/uname
+cannot:${drv}/bin/unexpand
+cannot:${drv}/bin/uniq
+cannot:${drv}/bin/unlink
+cannot:${drv}/bin/uptime
+cannot:${drv}/bin/users
+cannot:${drv}/bin/vdir
+cannot:${drv}/bin/wc
+cannot:${drv}/bin/who
+cannot:${drv}/bin/whoami
+cannot:${drv}/bin/yes
 EOF
 
 # wrapper(){
