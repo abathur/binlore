@@ -1,7 +1,6 @@
 { pkgs ? import <nixpkgs> { } }:
 with pkgs;
 let
-  inherit (pkgs.callPackage ./deps.nix { }) ouryara;
   rules = ./execers.yar;
   # sudo = if pkgs.stdenv.isDarwin
   #   then pkgs.runCommand "impure-native-darwin-sudo" { } ''
@@ -14,7 +13,7 @@ let
 in runCommand "yara-matches" { } ''
   binlore_yara()(
     set -x
-    ${ouryara}/bin/yara --print-strings ${rules} $1
+    ${yara}/bin/yara --print-strings ${rules} $1
   )
   {
     echo ""

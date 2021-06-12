@@ -24,7 +24,7 @@ that down will almost certainly mean reworking the API.
 
 with pkgs;
 let
-  inherit (callPackage ./deps.nix { }) ouryara yallback;
+  inherit (callPackage ./deps.nix { }) yallback;
   /*
   binlore has one one more yallbacks responsible for
   routing the appropriate lore to a named file in the
@@ -50,7 +50,7 @@ let
     #   uses of binlore.
     callback = lore: drv: overrides: ''
       echo generating binlore for $drv by running:
-      echo "${ouryara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback}"
+      echo "${yara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback}"
     '' +
     /*
     Override lore for some packages. Unsure, but for now:
@@ -71,7 +71,7 @@ let
         fi
         ((i--)) || true # don't break build
       done # || true # don't break build
-      ${ouryara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback} "$filter"
+      ${yara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback} "$filter"
     '';
   };
   overrides = ./overrides;
