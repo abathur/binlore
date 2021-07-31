@@ -1,0 +1,11 @@
+
+# notes:
+# - this works around a bug in file and should be unnecessary
+#   after the next release; https://bugs.astron.com/view.php?id=276
+
+yallback:done(){
+	cat <<-EOF > $out/execers
+	might:${drv}/bin/esh
+	EOF
+	: > $out/wrappers
+}
