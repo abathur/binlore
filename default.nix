@@ -49,8 +49,12 @@ let
     #   since this form will make it easier to pilot other
     #   uses of binlore.
     callback = lore: drv: overrides: ''
-      echo generating binlore for $drv by running:
-      echo "${yara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback}"
+      if [[ -d "${drv}/bin" ]]; then
+        echo generating binlore for $drv by running:
+        echo "${yara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback}"
+      else
+        echo "failed to generate binlore for $drv (${drv}/bin doesn't exist)"
+      fi
     '' +
     /*
     Override lore for some packages. Unsure, but for now:
@@ -71,7 +75,9 @@ let
         fi
         ((i--)) || true # don't break build
       done # || true # don't break build
-      ${yara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback} "$filter"
+      if [[ -d "${drv}/bin" ]]; then
+        ${yara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback} "$filter"
+      fi
     '';
   };
   overrides = ./overrides;
