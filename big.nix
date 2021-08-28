@@ -17,6 +17,7 @@ with pkgs; [
     */
     # unixtools.arp
     asmfmt
+    bash
     bat
     bc
     bison
@@ -53,6 +54,7 @@ with pkgs; [
     gnugrep
     gnumake
     # gnupatch # defer to generic patch for now
+    gnupg
     gnused
     gnutar
     grc
@@ -136,6 +138,7 @@ with pkgs; [
     yaml2json
     yarn
     youtube-dl
+    zsh
 ] ++ lib.optionals (!stdenv.isDarwin) [
     unixtools.eject
     unixtools.logger
