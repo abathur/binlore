@@ -38,6 +38,7 @@ with pkgs; [
     doxygen
     ed
     emacs
+    # esh # probably needs to wait for file 5.41+
     exa
     unixtools.fdisk
     ffmpeg
@@ -65,6 +66,7 @@ with pkgs; [
     htop
     hub
     # unixtools.ifconfig
+    j2cli
     jmespath
     jq
     unixtools.killall
