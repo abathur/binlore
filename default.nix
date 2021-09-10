@@ -86,7 +86,7 @@ in rec {
   collect = { lore ? loreDef, drvs }: (runCommand "more-binlore" { } ''
     mkdir $out
     for lorefile in ${toString lore.types}; do
-      cat ${lib.concatMapStrings (x: x + "/$lorefile ") (map (make lore) drvs)} > $out/$lorefile
+      cat ${lib.concatMapStrings (x: x + "/$lorefile ") (map (make lore) (map lib.getBin drvs))} > $out/$lorefile
     done
   '');
   # TODO: echo for debug, can be removed at some point
@@ -99,6 +99,6 @@ in rec {
 
     ${lore.callback lore drv overrides}
 
-    echo binlore written to $out
+    echo binlore for $drv written to $out
   '');
 }
