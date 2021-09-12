@@ -1,5 +1,6 @@
 # binlore - generate and aggregate info about executables in nix packages
-Since binlore is very young and currently has a limited scope, the vision may make a little more sense if I outline what it currently does and why.
+
+Since binlore is very young and currently has a limited scope, the vision may make a little more sense if I outline what it currently does and why. If you'd like to help improve binlore, see [How to help](how-to-help.md)
 
 ## Why / Motive
 I'm building binlore to help [resholve](https://github.com/abathur/resholve) decide how likely the executables it finds in shell scripts are to also execute one of their arguments. 
