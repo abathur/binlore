@@ -72,6 +72,7 @@ with pkgs; [
     unixtools.killall
     kubectl
     less
+    libarchive
     llvm_5
     llvm_6
     llvm_7

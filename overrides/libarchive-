@@ -1,0 +1,23 @@
+# notes:
+# - bsdtar is detected as "cannot" because the exec is internal to
+#   calls it makes into libarchive itself. If binlore gains support
+#   for detecting another layer down into libraries, this can be cut.
+
+
+# $1 = verdict
+# $2 = executable
+execer(){
+	case "$2" in
+		bsdtar)
+			if [[ "$1" == "cannot" ]]; then
+				printf "can"
+			else
+				echo "broken assumption: bsdtar verdict == cannot" 1>&2
+				exit 2
+			fi
+			;;
+		*)
+			printf "$1"
+			;;
+	esac
+}
