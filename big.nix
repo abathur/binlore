@@ -143,8 +143,10 @@ with pkgs; [
     youtube-dl
     zsh
 ] ++ lib.optionals (!stdenv.isDarwin) [
+    pacman
     unixtools.eject
     unixtools.logger
     unixtools.wall
-    pacman
+] ++ lib.optionals (stdenv.isLinux) [
+    util-linux
 ]
