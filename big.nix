@@ -16,6 +16,7 @@ with pkgs; [
     in the future. (all are cannot_exec on both platforms)
     */
     # unixtools.arp
+    apacheHttpd
     asmfmt
     bash
     bat
@@ -91,6 +92,7 @@ with pkgs; [
     ncurses
     neovim
     # unixtools.netstat
+    nginx
     ninja
     nmap
     openssh
@@ -118,6 +120,7 @@ with pkgs; [
     shellcheck
     shfmt
     smenu
+    socat
     sqlite
     # sudo disabled because nix+sudo doesn't work like this; it needs a wrapper and isn't cross-platform
     unixtools.sysctl
@@ -142,9 +145,12 @@ with pkgs; [
     yarn
     youtube-dl
     zsh
+    zip
 ] ++ lib.optionals (!stdenv.isDarwin) [
+    pacman
     unixtools.eject
     unixtools.logger
     unixtools.wall
-    pacman
+] ++ lib.optionals (stdenv.isLinux) [
+    util-linux
 ]
