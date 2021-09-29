@@ -1,0 +1,22 @@
+# notes:
+# - confidence middling, but I think zip is detected as can because
+#   it uses system() to try to run /bin/rmdir
+
+
+# $1 = verdict
+# $2 = executable
+execer(){
+	case "$2" in
+		zip)
+			if [[ "$1" == "can" ]]; then
+				printf "cannot"
+			else
+				echo "broken assumption: zip verdict == can" 1>&2
+				exit 2
+			fi
+			;;
+		*)
+			printf "$1"
+			;;
+	esac
+}
