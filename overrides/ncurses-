@@ -1,0 +1,27 @@
+# notes:
+# - I'm not very familiar with ncurses, but it looks like most of the
+#   exec here will run hard-coded executables. There's one that is
+#   dynamic, but it looks like it only comes from executing a terminfo
+#   file, so I think it isn't going to be under user control at the CLI.
+#   Happy to have someone help nail this down in either direction!
+#   The "capability" is 'iprog', and I could only find 1 real example:
+#   https://invisible-island.net/ncurses/terminfo.ti.html#tic-linux-s
+
+
+# $1 = verdict
+# $2 = executable
+execer(){
+	case "$2" in
+		reset|tput|tset)
+			if [[ "$1" == "can" ]]; then
+				printf "cannot"
+			else
+				echo "broken assumption: $2 verdict == can" 1>&2
+				exit 2
+			fi
+			;;
+		*)
+			printf "$1"
+			;;
+	esac
+}
