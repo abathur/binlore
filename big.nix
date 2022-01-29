@@ -88,6 +88,7 @@ with pkgs; [
     man
     unixtools.more
     unixtools.mount
+    mpv
     nano
     ncurses
     neovim
