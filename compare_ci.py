@@ -2,7 +2,10 @@
 
 import sys
 import csv
+import re
 from collections import defaultdict
+
+PATHSPLIT = re.compile(r"/bin/|/lib/|/libexec/")
 
 
 class SuperSerial(csv.Dialect):
@@ -82,7 +85,7 @@ def ingest(exec_f, wrap_f, unhandled, label):
                 % (label, path, unhandled)
             )
 
-        package, _executable = path.split("/bin/")
+        package, _executable = PATHSPLIT.split(path)
         packages.add(package)
 
         if path in wrapped:
