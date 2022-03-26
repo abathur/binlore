@@ -11,4 +11,5 @@ let
   #   '' else pkgs.sudo;
 in
   binlore.collect { drvs = (import ./big.nix { }); }
+  # binlore.collect { drvs = (import ./lil.nix { }); }
   # binlore.collect { drvs = [ sudo ]; }
