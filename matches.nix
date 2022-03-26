@@ -13,14 +13,14 @@ let
 in runCommand "yara-matches" { } ''
   binlore_yara()(
     set -x
-    ${yara}/bin/yara --print-strings ${rules} $1
+    ${yara}/bin/yara --scan-list --print-strings ${rules} <(printf '%s\n' $1/{bin,lib,libexec})
   )
   {
     echo ""
     for package in ${toString targets}; do
       echo "YARA rule matches for package $package"
       echo ""
-      binlore_yara $package/bin
+      binlore_yara $package
       echo ""
       echo "File types"
       echo ""

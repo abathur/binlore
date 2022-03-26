@@ -13,7 +13,7 @@ in pkgs.mkShell {
   buildInputs = [ yara xxd sudo ];
   shellHook = ''
   binlore_yara(){
-    ${yara}/bin/yara ${rules} $1
+    ${yara}/bin/yara --scan-list ${rules} <(printf '%s\n' $1/{bin,lib,libexec})
   }
   echo "To see YARA rule matches for a package, run:"
   echo "binlore_yara {package}/bin"
