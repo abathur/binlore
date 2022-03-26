@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> { } }:
 
 with pkgs; [
-    ag
+    silver-searcher
     antlr
     /*
     the networking unixtools all need an env to
