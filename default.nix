@@ -49,9 +49,9 @@ let
     #   since this form will make it easier to pilot other
     #   uses of binlore.
     callback = lore: drv: overrides: ''
-      if [[ -d "${drv}/bin" ]]; then
+      if [[ -d "${drv}/bin" ]] || [[ -d "${drv}/lib" ]] || [[ -d "${drv}/libexec" ]]; then
         echo generating binlore for $drv by running:
-        echo "${yara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback}"
+        echo "${yara}/bin/yara --scan-list ${lore.rules} <(printf '%s\n' ${drv}/{bin,lib,libexec}) | ${yallback}/bin/yallback ${lore.yallback}"
       else
         echo "failed to generate binlore for $drv (${drv}/bin doesn't exist)"
       fi
@@ -75,8 +75,8 @@ let
         fi
         ((i--)) || true # don't break build
       done # || true # don't break build
-      if [[ -d "${drv}/bin" ]]; then
-        ${yara}/bin/yara ${lore.rules} ${drv}/bin | ${yallback}/bin/yallback ${lore.yallback} "$filter"
+      if [[ -d "${drv}/bin" ]] || [[ -d "${drv}/lib" ]] || [[ -d "${drv}/libexec" ]]; then
+        ${yara}/bin/yara --scan-list ${lore.rules} <(printf '%s\n' ${drv}/{bin,lib,libexec}) | ${yallback}/bin/yallback ${lore.yallback} "$filter"
       fi
     '';
   };
