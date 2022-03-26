@@ -185,6 +185,12 @@ rule php_script //private
         script and magic.type() matches /(PHP|\/bin\/php\S*) script/
 }
 
+rule ruby_script //private
+{
+    condition:
+        script and magic.type() matches /(Ruby|\/bin\/ruby\S*) script/
+}
+
 /*
 TODO: I'm not in a hurry, but eventually I'd like to support the top N
 scripting languages in here as well, to the extent possible? In the
@@ -429,7 +435,7 @@ it from some other context.
 rule unhandled : abstract
 {
     condition:
-        perl_script or (shell_script and not shell_wrapper) or python_script or node_script or php_script
+        perl_script or (shell_script and not shell_wrapper) or python_script or node_script or php_script or ruby_script
 }
 
 /*

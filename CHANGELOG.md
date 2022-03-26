@@ -2,6 +2,7 @@
 
 ## v0.2.0 (UNRELEASED)
 - Collect lore for lib and libexec as well (but not recursively)
+- Identify (but don't handle) Ruby scripts.
 
 ## v0.1.4 (Jan 28 2022)
 - add ncurses and zip overrides
