@@ -5,7 +5,7 @@
   yallback = callPackage (fetchFromGitHub {
     owner = "abathur";
     repo = "yallback";
-    rev = "v0.1.0";
-    hash = "sha256-FaPqpxstKMhqLPFLIdenHgwzDE3gspBbJUSY95tblgI=";
+    rev = "v0.2.0";
+    hash = "sha256-t+fdnDJMFiFqN23dSY3TnsZsIDcravtwdNKJ5MiZosE=";
   }) { };
 }
