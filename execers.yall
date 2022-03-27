@@ -44,7 +44,7 @@ yallback:rule:shell_wrapper:all(){
 report_execers(){
   rule="${1/_exec/}"
   while read -r line; do
-    echo "$(execer "$rule" "${line##*$drv/bin/}")${FS}$line"
+    echo "$(execer "$rule" "${line##*$drv/*/}")${FS}$line"
   done
 } >> "$execers" # 1>&$execer
 

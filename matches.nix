@@ -24,7 +24,7 @@ in runCommand "yara-matches" { } ''
       echo ""
       echo "File types"
       echo ""
-      ${file}/bin/file -L $package/bin/*
+      ${file}/bin/file -L $package/*/*
       echo ""
     done
   } > $out
