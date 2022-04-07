@@ -144,12 +144,50 @@ rule shell_script
         script and magic.type() matches /(POSIX shell|Bourne-Again shell|\/bin\/\w*sh)\s*[-a-z]{,2}\s*script/
 }
 
+/*
+A few steps to this one:
+1. Do the best we can to identify `exec <utility|script>` with regex
+2. Since this will over-match, try to use some heuristics to shed some of the false positives. I'll mark implemented ideas with a + and unimplemented with a -.
+    Caution: this will itself be fraught. Exec is a very common word; it's hard to use code search tools to provide a very robust audit of usage out in the wild...
+    - ideally this shouldn't fire in a subshell; that's a sure sign that it is exec, but isn't an exec wrapper. Hard to detect this in a bullet-proof way. Maybe we can bite off some patterns, like a single-line? But we'll have to use locations to disambiguate them? (we want to make sure the subshell smell and the exec are at the same or nearly the same position...)
+    - general length/size of the script?
+        as simple as: filesize < 100KB
+        unfortunately, when I searched my nix store for candidates to check this against, the very first one I tried disproved it. git-2.35.1/libexec/git-core/git-gui is ~100k, and it leads with an exec followed by a big inlined TCL script
+
+        some straight perl examples:
+        perl-5.34.0/bin/h2xs
+        autoconf-2.71/bin/autoupdate
+
+        In order to use this heuristic, we might have to find a way to identify this general polyglot pattern?
+    + presence of functions?
+        legit examples of the kind of false-positive this helps avoid:
+        bats-1.6.0/lib/bats-core/formatter.bash and libexec/bats-core/bats-format-tap13
+    - patterns that just detect shell and then re-exec with the "right" one; examples:
+        yadm
+        ncurses-6.3-dev/bin/ncursesw6-config
+*/
 rule shell_wrapper
 {
     strings:
-        $ = /exec\s+((-a \S+|-c|-l|-E)\s+)*["']{0,1}[^'"]{2,100}["']{0,1}/
+        /*
+        \Wexec\s+
+            exec preceded by space or symbol and follwed by space
+        ((-a \S+|-c|-l|-E)\s+)*
+            optional exec flags
+        ('[^'>]{2,100}'|"[^">]{2,100}"|[^'">]{2,100}(\s|[|;]))
+            'long string excl single-quote and redirect'
+            OR "long string excl double-quote and redirect"
+            OR long string excl quotes and redirect
+        */
+        $execlike = /\Wexec\s+((-a \S+|-c|-l|-E)\s+)*('[^'>]{2,100}'|"[^">]{2,100}"|[^'">]{2,100}(\s|[|;]))/
+        /*
+        Using two different funclikes so that function keyword is optional with the paren() form, and then match a "true" keyword form with no paren
+        */
+        $funclike_paren = /\n\s*(function\s*)?\w+\s*\(\)\s*\n*[({]/
+        $funclike_keyword = /\n\s*function\s*\w+\s+\n*[({]/
     condition:
-        shell_script and any of them
+        shell_script and $execlike and not $funclike_paren and not $funclike_keyword
+
 }
 
 // Might find wrappers in many other forms, I guess.
