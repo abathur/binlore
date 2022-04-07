@@ -83,10 +83,11 @@ let
   overrides = ./overrides;
 
 in rec {
-  collect = { lore ? loreDef, drvs }: (runCommand "more-binlore" { } ''
+  collect = { lore ? loreDef, drvs, strip ? [ ] }: (runCommand "more-binlore" { } ''
     mkdir $out
     for lorefile in ${toString lore.types}; do
-      cat ${lib.concatMapStrings (x: x + "/$lorefile ") (map (make lore) (map lib.getBin drvs))} > $out/$lorefile
+      cat ${lib.concatMapStrings (x: x + "/$lorefile ") (map (make lore) (map lib.getBin (builtins.filter lib.isDerivation drvs)))} > $out/$lorefile
+      substituteInPlace $out/$lorefile ${lib.concatMapStrings (x: "--replace '${x}/' '' ") strip}
     done
   '');
   # TODO: echo for debug, can be removed at some point
