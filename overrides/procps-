@@ -4,7 +4,7 @@
 # $2 = executable
 execer(){
 	case "$2" in
-		ps|top)
+		ps|top|free)
 			printf "cannot"
 			;;
 		*)
