@@ -80,10 +80,14 @@ def ingest(exec_f, wrap_f, unhandled, label):
             seen.add(path)
 
         if verdict == "might" and path not in unhandled:
-            raise Exception(
-                "Let's see if we can enforce only yielding might when unhandled == true? %r %r %r"
-                % (label, path, unhandled)
-            )
+            # TODO: if below is hopefully a temporary carve-out for templates at:
+            # ruby-*/lib/ruby/*/bundler/templates/Executable*
+            # see https://bugs.astron.com/view.php?id=476
+            if "bundler/templates" not in path:
+                raise Exception(
+                    "Let's see if we can enforce only yielding might when unhandled == true? %r %r %r"
+                    % (label, path, unhandled)
+                )
 
         package, _executable = PATHSPLIT.split(path, maxsplit=1)
         packages.add(package)
