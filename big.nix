@@ -38,7 +38,7 @@ with pkgs; [
     docker
     doxygen
     ed
-    emacs
+    # emacs # breaking on macOS as of 9/2/2023
     # esh # probably needs to wait for file 5.41+
     exa
     unixtools.fdisk
