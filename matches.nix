@@ -13,7 +13,7 @@ let
 in runCommand "yara-matches" { } ''
   binlore_yara()(
     set -x
-    ${yara}/bin/yara --scan-list --print-strings ${rules} <(printf '%s\n' $1/{bin,lib,libexec})
+    ${yara}/bin/yara --scan-list --recursive --print-strings ${rules} <(printf '%s\n' $1/{bin,lib,libexec})
   )
   {
     echo ""
