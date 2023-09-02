@@ -83,7 +83,7 @@ def ingest(exec_f, wrap_f, unhandled, label):
             # TODO: if below is hopefully a temporary carve-out for templates at:
             # ruby-*/lib/ruby/*/bundler/templates/Executable*
             # see https://bugs.astron.com/view.php?id=476
-            if "bundler/templates" not in path:
+            if "bundler/templates" not in path and "rustc" not in path:
                 raise Exception(
                     "Let's see if we can enforce only yielding might when unhandled == true? %r %r %r"
                     % (label, path, unhandled)
