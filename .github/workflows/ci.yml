@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: List setuid-wrapper equivalents?
         run: which -a chsh dbus-daemon-launch-helper fusermount3 fusermount kcheckpass kwin_wayland mount newgidmap newgrp newuidmap passwd ping pkexec polkit-agent-helper-1 sg start_kdeinit sudoedit sudo su umount unix_chkpwd || true
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v22
         with:
           nix_path: nixpkgs=channel:nixos-unstable
@@ -33,7 +33,7 @@ jobs:
           sed -i -E 's@/nix/store/[a-z0-9]{32}-@@' artifacts/*
           sed -i -E 's@/nix/store/[a-z0-9]{32}-@@' artifacts/*
       - name: Upload lore
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ubuntu-lore
           path: artifacts
@@ -42,7 +42,7 @@ jobs:
     steps:
       - name: List setuid-wrapper equivalents?
         run: which -a chsh dbus-daemon-launch-helper fusermount3 fusermount kcheckpass kwin_wayland mount newgidmap newgrp newuidmap passwd ping pkexec polkit-agent-helper-1 sg start_kdeinit sudoedit sudo su umount unix_chkpwd || true
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v22
         with:
           nix_path: nixpkgs=channel:nixos-unstable
@@ -62,7 +62,7 @@ jobs:
           sed -i '' -E 's@/nix/store/[a-z0-9]{32}-@@' artifacts/*
 
       - name: Upload lore
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: macos-lore
           path: artifacts
@@ -72,7 +72,7 @@ jobs:
     needs: [ubuntu, macos]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Download lore
         uses: actions/download-artifact@v2
       - name: Show raw YARA rule matches for ... on ubuntu
