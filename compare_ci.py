@@ -85,7 +85,7 @@ def ingest(exec_f, wrap_f, unhandled, label):
                 % (label, path, unhandled)
             )
 
-        package, _executable = PATHSPLIT.split(path)
+        package, _executable = PATHSPLIT.split(path, maxsplit=1)
         packages.add(package)
 
         if path in wrapped:
