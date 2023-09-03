@@ -1,0 +1,14 @@
+# notes:
+
+# $1 = verdict
+# $2 = executable
+execer(){
+	case "$2" in
+		mime-construct)
+			printf "cannot"
+			;;
+		*)
+			printf "$1"
+			;;
+	esac
+}
