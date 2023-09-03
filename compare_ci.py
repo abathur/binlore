@@ -179,6 +179,17 @@ with open("ubuntu-lore/execers") as ubuntu_execers, open(
     for outcome, count in outcomes.items():
         print("     {:6.6} -> {:6.6}  {:>6}".format(*outcome.split("->"), count))
         if count > 0:
+            """
+            TODO: firm this up, but I think the way this cashes out is like:
+
+            You're getting an error because the macOS and Linux binaries don't
+            scan the same. There are benign reasons for this, like conditional
+            compilation. But it might also mean that one or both YARA rules
+            need to be improved.
+
+            I'm not sure, but I assume I want to go compare the print-strings
+            for them?
+            """
             code = 1
 
 sys.exit(code)
