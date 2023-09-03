@@ -7,7 +7,7 @@
 # $2 = executable
 execer(){
 	case "$2" in
-		as)
+		as|ranlib)
 			printf "cannot"
 			;;
 		*)

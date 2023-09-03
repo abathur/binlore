@@ -4,7 +4,7 @@
 # $2 = executable
 execer(){
 	case "$2" in
-		llvm-tblgen)
+		llvm-tblgen|FileCheck)
 			printf "cannot"
 			;;
 		*)
