@@ -1,0 +1,28 @@
+# notes:
+
+# $1 = verdict
+# $2 = executable
+execer(){
+	case "$2" in
+		# msmtpq is meant to be a drop-in replacement for msmtp,
+		# so it should accept all of the same arguments that
+		# msmtp accepts [1]. This means that msmtpq should have
+		# the same verdict as msmtp.
+		#
+		# [1]: <https://github.com/marlam/msmtp-mirror/blob/06aa09354a15b4f101c33d8c96ceab4980d40f87/scripts/msmtpq/README.msmtpq#L34>.
+		msmtpq)
+			local msmtp_verdict
+			msmtp_verdict="$(grep -m 1 bin/msmtp "$execers" | cut -d: -f1)"
+			if [ "$?" -eq 0 ]
+			then
+				printf "%s" "$msmtp_verdict"
+			else
+				echo Failed to get verdict for msmtp. 1>&2
+				exit 2
+			fi
+			;;
+		*)
+			printf "$1"
+			;;
+	esac
+}
