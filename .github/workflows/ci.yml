@@ -74,7 +74,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Download lore
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
       - name: Show raw YARA rule matches for ... on ubuntu
         run: cat ubuntu-lore/matches
       - name: Show raw YARA rule matches for ... on macos
