@@ -13,6 +13,24 @@ binlore itself is a Nix API with two main functions:
 - `collect` which builds a derivation that depends on and aggregates the output of `make` for each package in a list. In this case, aggregation means concatenating files with the same name for every package into a single file of the same name.
 - It'll take some use for norms/patterns to settle, but I tentatively see each file as a "type" or "kind" of lore.
 
+### Trying out the API
+
+If you want to contribute to binlore or use binlore in your own project, then you’ll probably want to see what lore binlore produces for particular commands. Here’s how you would get the lore for [`hello`](https://search.nixos.org/packages?channel=unstable&show=hello&from=0&size=50&sort=relevance&type=packages&query=hello) and [`haskellPackages.hello`](https://search.nixos.org/packages?channel=unstable&show=haskellPackages.hello&from=0&size=50&sort=relevance&type=packages&query=hello):
+
+```console
+$ git clone https://github.com/abathur/binlore.git
+$ cd binlore
+$ nix-build -E 'with import <nixpkgs> { }; (callPackage ./binlore.nix { binloreSrc = ./.; }).collect { drvs = [ hello haskellPackages.hello ]; }'
+/nix/store/23n1yzlbkpfl6shqfpn1xbmzmpgbdxqa-more-binlore
+$ cat result/execers
+cannot:/nix/store/sbldylj3clbkc0aqvjjzfa6slp4zdvlj-hello-2.12.1/bin/hello
+cannot:/nix/store/56bdifn35wcf2ggffv2mj7yrlifrgrhd-hello-1.0.0.2/bin/hello
+$ cat result/wrappers
+$
+```
+
+In this example, `result/wrappers` is empty.
+
 ## How / Analyses
 The only `[analysis]` so far meets resholve's immediate needs. You can find its definition in the `loreDev` attr in [default.nix](default.nix), but the broad strokes are that it:
 - runs YARA with a [single YARA ruleset](execers.yar) on `${package}/bin` 
