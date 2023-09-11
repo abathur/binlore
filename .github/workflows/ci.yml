@@ -15,17 +15,17 @@ jobs:
         run: which -a chsh dbus-daemon-launch-helper fusermount3 fusermount kcheckpass kwin_wayland mount newgidmap newgrp newuidmap passwd ping pkexec polkit-agent-helper-1 sg start_kdeinit sudoedit sudo su umount unix_chkpwd || true
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v22
-        with:
-          nix_path: nixpkgs=channel:nixos-unstable
+      - name: Check flake
+        run: nix flake check
       - name: Generate binlore for specified packages
-        run: nix-build ci.nix
+        run: nix build .#big
       - name: Move result to artifacts
         run: |
           mkdir artifacts
           cp result/* artifacts/
       - name: Generate underlying YARA rule matches
         run: |
-          nix-build matches.nix
+          nix build .#bigmatch
           cat result > artifacts/matches
       - name: De-hash artifacts
         # 2x; lazy, some lines have 2 paths
@@ -44,17 +44,17 @@ jobs:
         run: which -a chsh dbus-daemon-launch-helper fusermount3 fusermount kcheckpass kwin_wayland mount newgidmap newgrp newuidmap passwd ping pkexec polkit-agent-helper-1 sg start_kdeinit sudoedit sudo su umount unix_chkpwd || true
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v22
-        with:
-          nix_path: nixpkgs=channel:nixos-unstable
+      - name: Check flake
+        run: nix flake check
       - name: Generate binlore for specified packages
-        run: nix-build ci.nix
+        run: nix build .#big
       - name: Move result to artifacts
         run: |
           mkdir artifacts
           cp result/* artifacts/
       - name: Generate underlying YARA rule matches
         run: |
-          nix-build matches.nix
+          nix build .#bigmatch
           cat result > artifacts/matches
       - name: De-hash artifacts
         run: |

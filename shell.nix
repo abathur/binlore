@@ -1,21 +1,10 @@
-{ pkgs ? import <nixpkgs> { } }:
-with pkgs;
-let
-  rules = ./execers.yar;
-  sudo = if pkgs.stdenv.isDarwin
-    then pkgs.runCommand "impure-native-darwin-sudo" { } ''
-      mkdir -p $out/bin
-      ln -s /usr/bin/sudo $out/bin/sudo
-      ln -s /usr/sbin/sudo $out/bin/visudo
-    '' else pkgs.sudo;
-  targets = [ sudo coreutils ];
-in pkgs.mkShell {
-  buildInputs = [ yara xxd sudo ];
-  shellHook = ''
-  binlore_yara(){
-    ${yara}/bin/yara --scan-list ${rules} <(printf '%s\n' $1/{bin,lib,libexec})
-  }
-  echo "To see YARA rule matches for a package, run:"
-  echo "binlore_yara {package}/bin"
-  '';
-}
+(import
+  (
+    let lock = builtins.fromJSON (builtins.readFile ./flake.lock); in
+    fetchTarball {
+      url = "https://github.com/edolstra/flake-compat/archive/${lock.nodes.flake-compat.locked.rev}.tar.gz";
+      sha256 = lock.nodes.flake-compat.locked.narHash;
+    }
+  )
+  { src = ./.; }
+).shellNix

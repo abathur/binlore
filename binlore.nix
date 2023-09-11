@@ -1,4 +1,14 @@
-{ pkgs ? import <nixpkgs> { }
+{ lib
+, fetchFromGitHub
+, runCommand
+, yallback
+, yara
+, binloreSrc ? fetchFromGitHub {
+    owner = "abathur";
+    repo = "binlore";
+    rev = "v0.2.0";
+    hash = "sha256-bBJky7Km+mieHTqoMz3mda3KaKxr9ipYpfQqn/4w8J0=";
+  }
 }:
 
 /* TODO/CAUTION:
@@ -22,9 +32,15 @@ that down will almost certainly mean reworking the API.
 
 */
 
-with pkgs;
 let
-  inherit (callPackage ./deps.nix { }) yallback;
+  # DOING: src (and refs to it) just used in the nixpkgs copy; normalize
+  # first try is to pass as param w/ default
+  # binloreSrc = fetchFromGitHub {
+  #   owner = "abathur";
+  #   repo = "binlore";
+  #   rev = "v0.2.0";
+  #   hash = "sha256-bBJky7Km+mieHTqoMz3mda3KaKxr9ipYpfQqn/4w8J0=";
+  # };
   /*
   binlore has one one more yallbacks responsible for
   routing the appropriate lore to a named file in the
@@ -37,11 +53,11 @@ let
   # TODO: feeling really uninspired on the API
   loreDef = {
     # YARA rule file
-    rules = ./execers.yar;
+    rules = (binloreSrc + "/execers.yar");
     # output filenames; "types" of lore
     types = [ "execers" "wrappers" ];
     # shell rule callbacks; see github.com/abathur/yallback
-    yallback = ./execers.yall;
+    yallback = (binloreSrc + "/execers.yall");
     # TODO:
     # - echo for debug, can be removed at some point
     # - I really just wanted to put the bit after the pipe
@@ -80,7 +96,7 @@ let
       fi
     '';
   };
-  overrides = ./overrides;
+  overrides = (binloreSrc + "/overrides");
 
 in rec {
   collect = { lore ? loreDef, drvs, strip ? [ ] }: (runCommand "more-binlore" { } ''

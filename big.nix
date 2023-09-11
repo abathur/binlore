@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> { } }:
+{ pkgs }:
 
 with pkgs; [
     silver-searcher
@@ -40,7 +40,6 @@ with pkgs; [
     ed
     # emacs # breaking on macOS as of 9/2/2023
     # esh # probably needs to wait for file 5.41+
-    exa
     unixtools.fdisk
     ffmpeg
     findutils
@@ -108,7 +107,7 @@ with pkgs; [
     # unixtools.ping
     unixtools.ps
     pstree
-    python
+    python3
     unixtools.quota
     ranger
     rlwrap
@@ -134,7 +133,7 @@ with pkgs; [
     unixtools.umount
     unzip
     vagrant
-    vault
+    # vault # hash mismatch on macOS 9/11/2023
     vim
     unixtools.watch
     wget
