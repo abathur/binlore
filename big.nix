@@ -152,5 +152,6 @@ with pkgs; [
     unixtools.logger
     unixtools.wall
 ] ++ lib.optionals (stdenv.isLinux) [
+    nixos-install-tools
     util-linux
 ]
