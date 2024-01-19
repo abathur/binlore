@@ -1,0 +1,16 @@
+# notes:
+# - nixos-rebuild can’t execute its arguments, but it can run ssh with the with the options stored in $NIX_SSHOPTS, and ssh can execute its arguments.
+
+# $1 = verdict
+# $2 = executable
+execer(){
+	case "$2" in
+		nixos-rebuild)
+			printf "cannot"
+			;;
+		*)
+			echo error, bill bobbinson! 1>&2
+			exit 2
+			;;
+	esac
+}
