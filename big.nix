@@ -153,5 +153,6 @@ with pkgs; [
     unixtools.wall
 ] ++ lib.optionals (stdenv.isLinux) [
     nixos-install-tools
+    nixos-rebuild
     util-linux
 ]
