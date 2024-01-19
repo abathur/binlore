@@ -21,7 +21,7 @@
     };
   };
 
-  description = "Python port of the D★Mark (semantic) markup language";
+  description = "generate and aggregate info about executables in nix packages";
 
   outputs = { self, nixpkgs, flake-utils, flake-compat, yallback }:
     {
