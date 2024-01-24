@@ -1,0 +1,15 @@
+# notes:
+
+# $1 = verdict
+# $2 = executable
+execer(){
+	case "$2" in
+		swapspace)
+			printf "cannot"
+			;;
+		*)
+			echo error, bill bobbinson! 1>&2
+			exit 2
+			;;
+	esac
+}
