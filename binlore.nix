@@ -3,7 +3,6 @@
 , runCommand
 , yallback
 , yara
-, pkgsBuildBuild
 , binloreSrc ? fetchFromGitHub {
     owner = "abathur";
     repo = "binlore";
@@ -68,7 +67,7 @@ let
     callback = lore: drv: overrides: ''
       if [[ -d "${drv}/bin" ]] || [[ -d "${drv}/lib" ]] || [[ -d "${drv}/libexec" ]]; then
         echo generating binlore for $drv by running:
-        echo "${pkgsBuildBuild.yara}/bin/yara --scan-list --recursive ${lore.rules} <(printf '%s\n' ${drv}/{bin,lib,libexec}) | ${pkgsBuildBuild.yallback}/bin/yallback ${lore.yallback}"
+        echo "${yara}/bin/yara --scan-list --recursive ${lore.rules} <(printf '%s\n' ${drv}/{bin,lib,libexec}) | ${yallback}/bin/yallback ${lore.yallback}"
       else
         echo "failed to generate binlore for $drv (none of ${drv}/{bin,lib,libexec} exist)"
       fi
@@ -93,7 +92,7 @@ let
         ((i--)) || true # don't break build
       done # || true # don't break build
       if [[ -d "${drv}/bin" ]] || [[ -d "${drv}/lib" ]] || [[ -d "${drv}/libexec" ]]; then
-        ${pkgsBuildBuild.yara}/bin/yara --scan-list --recursive ${lore.rules} <(printf '%s\n' ${drv}/{bin,lib,libexec}) | ${pkgsBuildBuild.yallback}/bin/yallback ${lore.yallback} "$filter"
+        ${yara}/bin/yara --scan-list --recursive ${lore.rules} <(printf '%s\n' ${drv}/{bin,lib,libexec}) | ${yallback}/bin/yallback ${lore.yallback} "$filter"
       fi
     '';
   };
