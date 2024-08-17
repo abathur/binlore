@@ -68,7 +68,7 @@ can_exec /nix/store/...-diffutils-3.10/bin/diff
 
 Using the experimental CLI you can do something like:
 ```console
-$ nix develop github.com:abathur/binlore
+$ nix develop github:abathur/binlore
 $ binlore_yara /nix/store/...-diffutils-3.10
 ...
 executable /nix/store/...-diffutils-3.10/bin/cmp
