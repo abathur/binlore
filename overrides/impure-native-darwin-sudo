@@ -1,8 +1,0 @@
-yallback:done(){
-	cat <<-EOF > $out/execers
-	can:${drv}/bin/sudo
-	can:${drv}/bin/visudo
-	EOF
-	: > $out/wrappers
-}
-
