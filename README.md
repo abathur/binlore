@@ -8,9 +8,10 @@ I'm building binlore to help [resholve](https://github.com/abathur/resholve) dec
 This information helps resholve scrutinize these invocations more carefully and require user triage as-needed (without wasting user time on unlikely cases).
 
 ## What / API (high level)
-binlore itself is a Nix API with two main functions:
+binlore itself is a Nix API with three main functions:
 - `make` which builds a derivation that runs a black-box we'll call `[analysis]` for a single package and outputs a directory with one or more named files containing some or all of the output from that analysis.
 - `collect` which builds a derivation that depends on and aggregates the output of `make` for each package in a list. In this case, aggregation means concatenating files with the same name for every package into a single file of the same name.
+- `synthesize` which (with the aid of a Shell DSL) makes it easy to attach manually-generated lore overrides to a specific package.
 - It'll take some use for norms/patterns to settle, but I tentatively see each file as a "type" or "kind" of lore.
 
 ### Trying out the API
