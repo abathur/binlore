@@ -25,7 +25,7 @@ with pkgs; [
     brotli
     bup
     bzip2
-    clang
+    # clang # no longer in scope unless requested; purged overrides
     cmake
     unixtools.col
     coloursum
@@ -47,7 +47,7 @@ with pkgs; [
     unixtools.fsck
     fzf
     gawk
-    gcc
+    # gcc
     unixtools.getconf
     unixtools.getent
     unixtools.getopt
@@ -73,13 +73,14 @@ with pkgs; [
     kubectl
     less
     libarchive
-    llvm_5
-    llvm_6
-    llvm_7
-    llvm_8
-    llvm_9
-    llvm_10
-    llvm_11
+    # no longer in scope unless requested; purged overrides
+    # llvm_5
+    # llvm_6
+    # llvm_7
+    # llvm_8
+    # llvm_9
+    # llvm_10
+    # llvm_11
     loc
     unixtools.locale
     lsof
