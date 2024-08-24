@@ -133,7 +133,7 @@ with pkgs; [
     tree
     unixtools.umount
     unzip
-    vagrant
+    # vagrant # unfree license now
     # vault # hash mismatch on macOS 9/11/2023
     vim
     unixtools.watch
@@ -144,7 +144,7 @@ with pkgs; [
     xz
     yaml2json
     yarn
-    youtube-dl
+    yt-dlp
     zsh
     zip
 ] ++ lib.optionals (!stdenv.isDarwin) [
