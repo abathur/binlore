@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.5.0 (UNRELEASED)
+## v0.5.0 (August 24, 2024)
 - Add new nix function `binlore.synthesize` for generating override lore.
 - Update lore collector to support collecting from `drv.passthru.binlore` and `$out/nix-support/<lorefile>`.
 
