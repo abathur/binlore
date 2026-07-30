@@ -150,6 +150,8 @@ with open("ubuntu-lore/execers") as ubuntu_execers, open(
         else:
             print("!    package differs:", package)
             for path in package_paths[package]:
+                if "/lib/" in path or "/libexec/" in path:
+                    continue
                 verdicts = path_verdicts[path]
 
                 if "macos" not in verdicts:
